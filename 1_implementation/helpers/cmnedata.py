@@ -1,5 +1,5 @@
 #**
-# @file     biodata.py
+# @file     cmnedata.py
 # @author   Christoph Dinh <chdinh@nmr.mgh.harvard.edu>
 # @version  1.0
 # @date     September, 2017
@@ -8,16 +8,17 @@
 #
 # Copyright (C) 2017, Christoph Dinh. All rights reserved.
 #
-# @brief    Bio Data contains, e.g., data loader
+# @brief    CMNEData contains, e.g., data loader
 #**
 
+#%%
 import os
 import numpy as np
 import random
 import mne
 from mne.minimum_norm import apply_inverse_epochs, read_inverse_operator
 
-from modules.biosettings import BioSettings
+from helpers.cmnesettings import CMNESettings
 
 
 ###################################################################################################
@@ -129,14 +130,14 @@ def create_sequence_parts(stc, look_back, start=0, step_size=1):
 
 
 ###################################################################################################
-# BioData class
+# CMNEData class
 ###################################################################################################
 
-class BioData(object):
-    """the bio data object
+class CMNEData(object):
+    """the cmne data object
 
     Attributes:
-        _bio_settings: Bio settings object.
+        _cmne_settings: CMNE settings object.
         _inv_op: The loaded inverse operator.
         _epochs: The loaded epochs.
         _num_epochs: Number of available epochs.
@@ -154,18 +155,18 @@ class BioData(object):
 	###############################################################################################
 	# Constructor
 	###############################################################################################
-    def __init__(self, bio_settings):
-        """Return a new BioData object."""
-        self._bio_settings = bio_settings
+    def __init__(self, cmne_settings):
+        """Return a new CMNEData object."""
+        self._cmne_settings = cmne_settings
 
 	###############################################################################################
 	# Load Data
 	###############################################################################################
     def load_data(self, event_id=1, tmin=-0.2, tmax=0.5):
 		# Load data
-        inverse_operator = read_inverse_operator(self._bio_settings.fname_inv())
-        raw = mne.io.read_raw_fif(self._bio_settings.fname_raw())
-        events = mne.read_events(self._bio_settings.fname_event())
+        inverse_operator = read_inverse_operator(self._cmne_settings.fname_inv())
+        raw = mne.io.read_raw_fif(self._cmne_settings.fname_raw())
+        events = mne.read_events(self._cmne_settings.fname_event())
         
         # Set up pick list
         include = []
@@ -177,11 +178,11 @@ class BioData(object):
         #    raw.info['bads'] += ['EEG 053']  # bads + 1 more
         
         # pick MEG channels
-        picks = mne.pick_types( raw.info, meg=True, eeg=self._bio_settings.meg_and_eeg(), stim=False, eog=False, include=include, exclude='bads')
+        picks = mne.pick_types( raw.info, meg=True, eeg=self._cmne_settings.meg_and_eeg(), stim=False, eog=False, include=include, exclude='bads')
         
         # Read epochs
         epochs = mne.Epochs( raw, events, event_id, tmin, tmax, baseline=(None, 0),
-                            picks=picks, preload=self._bio_settings.large_memory(), reject=dict(mag=self._mag_th, grad=self._grad_th))#, eog=150e-5))#eog=150e-6))
+                            picks=picks, preload=self._cmne_settings.large_memory(), reject=dict(mag=self._mag_th, grad=self._grad_th))#, eog=150e-5))#eog=150e-6))
         
         epochs.drop_bad()
         
@@ -196,9 +197,9 @@ class BioData(object):
         
         whole_list = list(range(num_epochs))
         
-        if os.path.isfile(self._bio_settings.fname_test_idcs()):
+        if os.path.isfile(self._cmne_settings.fname_test_idcs()):
             self._test_idcs = []
-            with open(self._bio_settings.fname_test_idcs(), "r") as f:
+            with open(self._cmne_settings.fname_test_idcs(), "r") as f:
               for line in f:
                 self._test_idcs.append(int(line.strip()))
                 
@@ -208,7 +209,7 @@ class BioData(object):
             random.seed(42)
             self._train_idcs = random.sample(range(num_epochs), (int)(num_epochs*0.85))
             self._test_idcs = [item for item in whole_list if item not in self._train_idcs]
-            with open(self._bio_settings.fname_test_idcs(), "w") as f:
+            with open(self._cmne_settings.fname_test_idcs(), "w") as f:
                 for idx in self._test_idcs:
                     f.write(str(idx) +"\n")
 

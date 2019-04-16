@@ -1,5 +1,5 @@
 #**
-# @file     Option_3b_bio_mne_LSTM_single_estimation_nu_eval.py
+# @file     eval_d.py
 # @author   Christoph Dinh <chdinh@nmr.mgh.harvard.edu>;
 #           Matti Hamalainen <msh@nmr.mgh.harvard.edu>
 # @version  1.0
@@ -29,9 +29,9 @@ from keras.layers import LSTM
 
 from keras.callbacks import TensorBoard
 
-from modules.biosettings import BioSettings
-from modules.biodata import BioData
-from modules.biodata import generate_lstm_batches
+from modules.cmnesettings import CMNESettings
+from modules.cmnedata import CMNEData
+from modules.cmnedata import generate_lstm_batches
 
 ###################################################################################################
 # Configuration
@@ -66,9 +66,9 @@ event_id, tmin, tmax = 1, 0.0, 0.5
 #                       fname_eve='SpikeSim2000_fs900_raw-eve.fif',
 #                       fname_test_idcs='SpikeSim2000_fs900_raw-test-idcs.txt')
 # 4 - Local
-settings = BioSettings(repo_path='D:/Users/Christoph/GitHub/bio/', data_path='D:/Data/MEG/jgs/170505/processed/')
+settings = CMNESettings(repo_path='D:/Users/Christoph/GitHub/bio/', data_path='D:/Data/MEG/jgs/170505/processed/')
 
-data = BioData(bio_settings=settings)
+data = CMNEData(cmne_settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 num_features_in = data.inv_op()['nsource']

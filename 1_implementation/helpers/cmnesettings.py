@@ -1,5 +1,5 @@
 #**
-# @file     biosettings.py
+# @file     cmnesettings.py
 # @author   Christoph Dinh <chdinh@nmr.mgh.harvard.edu>
 # @version  1.0
 # @date     September, 2017
@@ -8,7 +8,7 @@
 #
 # Copyright (C) 2017, Christoph Dinh. All rights reserved.
 #
-# @brief    Bio Settings
+# @brief    CMNESettings
 #**
 
 #==================================================================================
@@ -16,10 +16,10 @@
 import os
 
 ###################################################################################################
-# BioSettings class
+# CMNESettings class
 ###################################################################################################
 
-class BioSettings(object):
+class CMNESettings(object):
     """the settings object
 
     Attributes:
@@ -38,13 +38,13 @@ class BioSettings(object):
     ###############################################################################################
     # Constructor
     ###############################################################################################
-    def __init__(self, repo_path='C:/Git/bio/', data_path='Z:/MEG/jgs/170505/processed/', 
+    def __init__(self, repo_path='C:/Git/cmne/', data_path='Z:/MEG/jgs/170505/processed/', 
                  fname_raw='assr_270LP_fs900_raw.fif',
                  fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
                  fname_eve='assr_270LP_fs900_raw-eve.fif',
                  fname_test_idcs='assr_270LP_fs900_raw-test-idcs.txt',
                  meg_and_eeg=True):
-        """Return a new BioConfiguration object."""
+        """Return a new CMNEConfiguration object."""
         
         self._meg_and_eeg = meg_and_eeg
         if meg_and_eeg:
@@ -60,15 +60,15 @@ class BioSettings(object):
         self._fname_event = self._data_path + fname_eve
         self._fname_test_idcs = self._data_path + fname_test_idcs
         
-        self._tb_log_dir = self._repo_path + 'Results/Logs'
+        self._tb_log_dir = self._repo_path + '3_results/Logs'
         
         # Create directories for results
-        if not os.path.isdir(self._repo_path + 'Results/Models'):
-            os.mkdir(self._repo_path + 'Results/Models')
-        if not os.path.isdir(self._repo_path + 'Results/Training'):
-            os.mkdir(self._repo_path + 'Results/Training')
-        if not os.path.isdir(self._repo_path + 'Results/STCs'):
-            os.mkdir(self._repo_path + 'Results/STCs')
+        if not os.path.isdir(self._repo_path + '3_results/Models'):
+            os.mkdir(self._repo_path + '3_results/Models')
+        if not os.path.isdir(self._repo_path + '3_results/Training'):
+            os.mkdir(self._repo_path + '3_results/Training')
+        if not os.path.isdir(self._repo_path + '3_results/STCs'):
+            os.mkdir(self._repo_path + '3_results/STCs')
     
     ###############################################################################################
     # Getters and setters

@@ -31,9 +31,9 @@ from keras.layers import LSTM
 
 from keras.callbacks import TensorBoard
 
-from modules.biosettings import BioSettings
-from modules.biodata import BioData
-from modules.biodata import generate_lstm_future_batches
+from modules.cmnesettings import CMNESettings
+from modules.cmnedata import CMNEData
+from modules.cmnedata import generate_lstm_future_batches
 
 import cmneconfig as cfg
 
@@ -51,11 +51,11 @@ num_unit = 640
 
 event_id, tmin, tmax = 1, 0.0, 0.5
 
-settings = BioSettings(repo_path=cfg.repo_path, data_path=cfg.data_path
-                       fname_raw=cfg.fname_raw,
-                       fname_inv=cfg.fname_inv,
-                       fname_eve=cfg.fname_eve,
-                       fname_test_idcs=cfg.fname_test_idcs
+settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path
+                        fname_raw=cfg.fname_raw,
+                        fname_inv=cfg.fname_inv,
+                        fname_eve=cfg.fname_eve,
+                        fname_test_idcs=cfg.fname_test_idcs
                        )
 
 
@@ -64,7 +64,7 @@ settings = BioSettings(repo_path=cfg.repo_path, data_path=cfg.data_path
 ###################################################################################################
 
 
-data = BioData(bio_settings=settings)
+data = CMNEData(cmne_settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 num_features_in = data.inv_op()['nsource']
