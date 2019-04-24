@@ -1,0 +1,7 @@
+Test script: plot_dmapem_inverse.py
+
+regular version: dmap_em.py
+
+tensorflow version: dmap_em_tf.py
+
+remember to switch to the right version in the test scripts.
