@@ -34,7 +34,7 @@ from helpers.cmnedata import CMNEData
 from helpers.cmnedata import generate_lstm_batches
 
 
-def eval_d(settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/')):
+def eval_d(settings, data):
     ###################################################################################################
     # Configuration
     ###################################################################################################
@@ -52,8 +52,6 @@ def eval_d(settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', dat
 
     event_id, tmin, tmax = 1, 0.0, 0.5
 
-
-    data = CMNEData(cmne_settings=settings)
     data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
     num_features_in = data.inv_op()['nsource']

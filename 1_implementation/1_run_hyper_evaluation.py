@@ -3,9 +3,9 @@ import sys
 sys.path.append("./1_cmne/1_hyperparameter_evaluation") #Add relative path to include modules
 
 from helpers.cmnesettings import CMNESettings
+from helpers.cmnedata import CMNEData
+
 from eval_d import eval_d
-
-
 
 
 # 0 - Sample Data
@@ -27,4 +27,6 @@ from eval_d import eval_d
 # 4 - Local
 settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/')
 
-eval_d(settings)
+data = CMNEData(cmne_settings=settings)
+
+eval_d(settings, data)
