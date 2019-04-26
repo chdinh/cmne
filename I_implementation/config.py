@@ -2,9 +2,9 @@
 repo_path='D:/Users/Christoph/GitHub/bio/'
 data_path='D:/Data/MEG/jgs/170505/processed/'
 
-fname_raw='sample_audvis_filt-0-40_raw.fif',
-fname_inv='sample_audvis-meg-eeg-oct-6-meg-eeg-inv.fif',
-fname_eve='sample_audvis_filt-0-40_raw-eve.fif',
+fname_raw='sample_audvis_filt-0-40_raw.fif'
+fname_inv='sample_audvis-meg-eeg-oct-6-meg-eeg-inv.fif'
+fname_eve='sample_audvis_filt-0-40_raw-eve.fif'
 fname_test_idcs='sample_audvis-test-idcs.txt'
 
 
