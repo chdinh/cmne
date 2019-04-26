@@ -25,7 +25,7 @@ from eval_k import eval_k
 from eval_future import eval_future
 from eval_topo_multi_hidden import eval_topo_multi_hidden
 
-#%% Settings
+#%% Data Settings
 # 0 - Sample Data
 #settings = CMNESettings(repo_path='D:/Git/cmne/', data_path='D:/Git/mne-cpp/bin/MNE-sample-data/',
 #                       fname_raw='sample_audvis_filt-0-40_raw.fif',
@@ -34,7 +34,7 @@ from eval_topo_multi_hidden import eval_topo_multi_hidden
 #                       fname_test_idcs='sample_audvis-test-idcs.txt')
 # 1 - Local
 #settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/')
-settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path,
+data_settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path,
                         fname_raw=cfg.fname_raw,
                         fname_inv=cfg.fname_inv,
                         fname_eve=cfg.fname_eve,
@@ -45,16 +45,19 @@ settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path,
 #%% Data
 event_id, tmin, tmax = 1, -0.2, 0.5
 
-data = CMNEData(cmne_settings=settings)
+data = CMNEData(cmne_settings=data_settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
+
+#%% Training Settings
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250}
 
 
 #%% Evaluate
 
-eval_d(settings, data)
+eval_d(data_settings, data, training_settings)
 
-eval_k(settings, data)
+eval_k(data_settings, data, training_settings)
 
-eval_future(settings, data)
+eval_future(data_settings, data, training_settings)
 
-eval_topo_multi_hidden(settings, data)
+eval_topo_multi_hidden(data_settings, data, training_settings)

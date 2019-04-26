@@ -38,14 +38,11 @@ from helpers.cmnedata import CMNEData
 from helpers.cmnedata import generate_lstm_batches
 
 
-def eval_d(settings, data):
+def eval_d(data_settings, data, training_settings):
     ###################################################################################################
     # Configuration
     ###################################################################################################
-
-    minibatch_size = 30
-    steps_per_ep = 20 #30
-    num_epochs = 250 #300
+    
     lstm_look_back = 80 #40 #100 #40
 
     num_units = [10,20,40,80,160,320,640,1280]
@@ -59,14 +56,14 @@ def eval_d(settings, data):
     num_labels_out = num_features_in
 
     # TensorBoard Callback
-    tbCallBack = TensorBoard(log_dir=settings.tb_log_dir(), histogram_freq=1, write_graph=True, write_images=True)
+    tbCallBack = TensorBoard(log_dir=data_settings.tb_log_dir(), histogram_freq=1, write_graph=True, write_images=True)
 
     history_losses = []
     for num_unit in num_units:
         print(">>>> Starting next iteration (Number of Units back = %d) <<<<\n" % (num_unit))
         #time_steps_in = lstm_look_back
         # create the Data Generator
-        data_generator = generate_lstm_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=minibatch_size)
+        data_generator = generate_lstm_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=training_settings['minibatch_size'])
 
         # create LSTM model
         model = None
@@ -78,7 +75,7 @@ def eval_d(settings, data):
         model.compile(loss = 'mean_squared_error', optimizer = 'adam')
 
         # Train - fit the model :D
-        fitting_result = model.fit_generator(data_generator, steps_per_epoch = steps_per_ep, epochs = num_epochs, verbose=1, callbacks=[tbCallBack], validation_data=None, class_weight=None, workers=1)
+        fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, callbacks=[tbCallBack], validation_data=None, class_weight=None, workers=1)
 
         # # let's get some predictions
         # test_predict = model.predict(test_features)
@@ -88,9 +85,9 @@ def eval_d(settings, data):
         ###################################################################################################
         date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
 
-        fname_model = settings.repo_path() + 'Results/Models/Model_Opt_3b_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
-        fname_training_loss = settings.repo_path() + 'Results/Training/Loss_Opt_3b_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
-        fname_resultfig = settings.repo_path() + 'Results/img/Loss_Opt_3b_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
+        fname_model = data_settings.repo_path() + 'Results/Models/Model_Opt_3b_' + data_settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
+        fname_training_loss = data_settings.repo_path() + 'Results/Training/Loss_Opt_3b_' + data_settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
+        fname_resultfig = data_settings.repo_path() + 'Results/img/Loss_Opt_3b_' + data_settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
 
         history_losses.append(fitting_result.history['loss'])
 
@@ -121,7 +118,7 @@ def eval_d(settings, data):
 
     # save overall plot
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
-    fname_overall_fig = settings.repo_path() + 'Results/img/Loss_Opt_3b_' + settings.modality() + '_overall_nu_' + date_stamp + '.png'
+    fname_overall_fig = data_settings.repo_path() + 'Results/img/Loss_Opt_3b_' + data_settings.modality() + '_overall_nu_' + date_stamp + '.png'
     plt.figure()
     plt.xlabel('Minibatch number')
     plt.ylabel('Loss')
