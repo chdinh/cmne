@@ -42,9 +42,6 @@ def eval_topo_multi_hidden(data_settings, data, training_settings):
     # Configuration
     ###################################################################################################
 
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250}
-
-    num_epochs = 350 #300
     lstm_look_back = 80 #40 #100 #40
     
     num_units = [[320,320,320],[640,640,640],[1280,1280,1280]]
