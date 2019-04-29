@@ -63,16 +63,26 @@ class CMNESettings(object):
         # Create directories for cmne results
         if not os.path.isdir(self._repo_path + 'III_results'):
             os.mkdir(self._repo_path + 'III_results')
+            
+        # CMNE
         if not os.path.isdir(self._repo_path + 'III_results/I_cmne'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne')
+            os.mkdir(self._repo_path + 'III_results/I_cmne') 
+        self._results_cmne_dir = self._repo_path + 'III_results/I_cmne'
         if not os.path.isdir(self._repo_path + 'III_results/I_cmne/I_models'):
             os.mkdir(self._repo_path + 'III_results/I_cmne/I_models')
         if not os.path.isdir(self._repo_path + 'III_results/I_cmne/II_logs'):
             os.mkdir(self._repo_path + 'III_results/I_cmne/II_logs')
         if not os.path.isdir(self._repo_path + 'III_results/I_cmne/III_training'):
             os.mkdir(self._repo_path + 'III_results/I_cmne/III_training')
-        if not os.path.isdir(self._repo_path + 'III_results/STCs'):
-            os.mkdir(self._repo_path + 'III_results/STCs')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/III_training'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne/III_training')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/IV_img'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne/IV_img')
+            
+        
+        # II_source_estimation
+        if not os.path.isdir(self._repo_path + 'III_results/II_source_estimation'):    
+            os.mkdir(self._repo_path + 'III_results/II_source_estimation')
                     
         self._tb_log_dir = self._repo_path + 'III_results/I_cmne/II_logs'
     
@@ -139,4 +149,11 @@ class CMNESettings(object):
         Returns the tensor board log dir
         """
         return self._tb_log_dir
+    
+    def results_cmne_dir(self):
+        """
+        Returns the cmne results dir
+        """
+        return self._results_cmne_dir
+    
     

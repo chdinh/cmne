@@ -20,20 +20,18 @@ from helpers.cmnedata import CMNEData
 
 import config as cfg
 
-from eval_d import eval_d
-from eval_k import eval_k
-from eval_future import eval_future
+from eval_hyper import eval_hyper
 from eval_topo_multi_hidden import eval_topo_multi_hidden
 
 
 #%% Data Settings
-data_settings = CMNESettings (   repo_path=cfg.repo_path, data_path=cfg.data_path,
-                                 fname_raw=cfg.fname_raw,
-                                 fname_inv=cfg.fname_inv,
-                                 fname_eve=cfg.fname_eve,
-                                 fname_test_idcs=cfg.fname_test_idcs,
-                                 meg_and_eeg=cfg.meg_and_eeg
-                             )
+data_settings = CMNESettings(   repo_path=cfg.repo_path, data_path=cfg.data_path,
+                                fname_raw=cfg.fname_raw,
+                                fname_inv=cfg.fname_inv,
+                                fname_eve=cfg.fname_eve,
+                                fname_test_idcs=cfg.fname_test_idcs,
+                                meg_and_eeg=cfg.meg_and_eeg
+                            )
 
 
 #%% Data
@@ -43,16 +41,19 @@ data = CMNEData(cmne_settings=data_settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 
-#%% Training Settings
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_back': [80], 'num_units': [10,20,40,80,160,320,640,1280]}
-
-
 #%% Evaluate
 
-eval_d(data_settings, data, training_settings)
+# num units d
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [80], 'num_units': [10,20,40,80,160,320,640,1280]}
+eval_hyper(data_settings, data, training_settings)
 
-eval_k(data_settings, data, training_settings)
+# look back k
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,20,40,80,160,320,480], 'num_units': [1280]}
+eval_hyper(data_settings, data, training_settings)
 
-eval_future(data_settings, data, training_settings)
+# future steps
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [80], 'num_units': [640], 'future_steps': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+eval_hyper(data_settings, data, training_settings)
 
-eval_topo_multi_hidden(data_settings, data, training_settings)
+# topology
+#eval_topo_multi_hidden(data_settings, data, training_settings)
