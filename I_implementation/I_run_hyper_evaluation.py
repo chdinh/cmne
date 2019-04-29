@@ -25,21 +25,15 @@ from eval_k import eval_k
 from eval_future import eval_future
 from eval_topo_multi_hidden import eval_topo_multi_hidden
 
+
 #%% Data Settings
-# 0 - Sample Data
-#settings = CMNESettings(repo_path='D:/Git/cmne/', data_path='D:/Git/mne-cpp/bin/MNE-sample-data/',
-#                       fname_raw='sample_audvis_filt-0-40_raw.fif',
-#                       fname_inv='sample_audvis-meg-eeg-oct-6-meg-eeg-inv.fif',
-#                       fname_eve='sample_audvis_filt-0-40_raw-eve.fif',
-#                       fname_test_idcs='sample_audvis-test-idcs.txt')
-# 1 - Local
-#settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/')
-data_settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path,
-                        fname_raw=cfg.fname_raw,
-                        fname_inv=cfg.fname_inv,
-                        fname_eve=cfg.fname_eve,
-                        fname_test_idcs=cfg.fname_test_idcs
-                       )
+data_settings = CMNESettings (   repo_path=cfg.repo_path, data_path=cfg.data_path,
+                                 fname_raw=cfg.fname_raw,
+                                 fname_inv=cfg.fname_inv,
+                                 fname_eve=cfg.fname_eve,
+                                 fname_test_idcs=cfg.fname_test_idcs,
+                                 meg_and_eeg=cfg.meg_and_eeg
+                             )
 
 
 #%% Data
@@ -48,8 +42,9 @@ event_id, tmin, tmax = 1, -0.2, 0.5
 data = CMNEData(cmne_settings=data_settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
+
 #%% Training Settings
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250}
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_back': [80], 'num_units': [10,20,40,80,160,320,640,1280]}
 
 
 #%% Evaluate

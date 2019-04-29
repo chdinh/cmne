@@ -59,16 +59,23 @@ class CMNESettings(object):
         self._fname_inv = self._data_path + fname_inv
         self._fname_event = self._data_path + fname_eve
         self._fname_test_idcs = self._data_path + fname_test_idcs
-        
-        self._tb_log_dir = self._repo_path + '3_results/Logs'
-        
-        # Create directories for results
-        if not os.path.isdir(self._repo_path + '3_results/Models'):
-            os.mkdir(self._repo_path + '3_results/Models')
-        if not os.path.isdir(self._repo_path + '3_results/Training'):
-            os.mkdir(self._repo_path + '3_results/Training')
-        if not os.path.isdir(self._repo_path + '3_results/STCs'):
-            os.mkdir(self._repo_path + '3_results/STCs')
+                
+        # Create directories for cmne results
+        if not os.path.isdir(self._repo_path + 'III_results'):
+            os.mkdir(self._repo_path + 'III_results')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/I_models'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne/I_models')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/II_logs'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne/II_logs')
+        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/III_training'):
+            os.mkdir(self._repo_path + 'III_results/I_cmne/III_training')
+        if not os.path.isdir(self._repo_path + 'III_results/STCs'):
+            os.mkdir(self._repo_path + 'III_results/STCs')
+                    
+        self._tb_log_dir = self._repo_path + 'III_results/I_cmne/II_logs'
+    
     
     ###############################################################################################
     # Getters and setters
