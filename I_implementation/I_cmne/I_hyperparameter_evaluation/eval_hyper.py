@@ -75,7 +75,7 @@ def eval_hyper(data_settings, data, training_settings):
                     model.compile(loss = 'mean_squared_error', optimizer = 'adam')
                 
                     # Train - fit the model :D
-                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, callbacks=[tbCallBack], validation_data=None, class_weight=None, workers=1)
+                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=None, class_weight=None, workers=1) #, callbacks=[tbCallBack])
                 
                     # # let's get some predictions
                     # test_predict = model.predict(test_features)
@@ -115,7 +115,7 @@ def eval_hyper(data_settings, data, training_settings):
                     plt.savefig(fname_resultfig, dpi=300)
                     #plt.show()
             else:
-                print(">>>> Starting next iteration (Look back = %d, Number of Units back = %d) <<<<\n" % (lstm_look_back, num_unit))
+                print("\n\n>>>> Starting next iteration (Look back = %d, Number of Units back = %d) <<<<\n" % (lstm_look_back, num_unit))
                 #time_steps_in = lstm_look_back
                 # create the Data Generator
                 data_generator = generate_lstm_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=training_settings['minibatch_size'])
@@ -130,7 +130,7 @@ def eval_hyper(data_settings, data, training_settings):
                 model.compile(loss = 'mean_squared_error', optimizer = 'adam')
     
                 # Train - fit the model :D
-                fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, callbacks=[tbCallBack], validation_data=None, class_weight=None, workers=1)
+                fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=None, class_weight=None, workers=1) #, callbacks=[tbCallBack])
     
                 # # let's get some predictions
                 # test_predict = model.predict(test_features)
