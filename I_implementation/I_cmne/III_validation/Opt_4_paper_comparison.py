@@ -70,12 +70,12 @@ event_id, tmin, tmax = 1, -0.5, 1.0
 #                       fname_eve='SpikeSim2000_fs900_raw-eve.fif',
 #                       fname_test_idcs='SpikeSim2000_fs900_raw-test-idcs.txt')
 
-fname_model = 'D:/Data/Models/bio/best_models/Model_Opt_5_sim_meg-eeg_nu_1280_lb_80_2018-02-03_114734.h5'
-settings = BioSettings(repo_path='D:/Users/Christoph/Git/bio/', data_path='D:/Data/Simulation/',
-                       fname_raw='SpikeSim250_processed_fs900_raw.fif',
-                       fname_inv='SpikeSim250_processed_fs900_raw-ico-4-meg-eeg-inv.fif',
-                       fname_eve='SpikeSim250_processed_fs900_raw-eve.fif',
-                       fname_test_idcs='SpikeSim250_processed_fs900_raw-test-idcs.txt')
+fname_model = '/autofs/cluster/fusion/john/projects/cmne/github/cmne/III_results/I_cmne/I_models/eval_hyper_model_meg-eeg_fs_7_nu_640_lb_80_2019-07-24_101714.h5'
+settings = BioSettings(repo_path='/autofs/cluster/fusion/john/projects/cmne/github/cmne/', data_path='/autofs/cluster/fusion/john/projects/cmne/assr_data/',
+                       fname_raw='assr_270LP_fs900_raw.fif',
+                       fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
+                       fname_eve='assr_270LP_fs900_raw-eve.fif',
+                       fname_test_idcs='assr_270LP_fs900_raw-test-idcs.txt')
 
 data = BioData(bio_settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
@@ -90,7 +90,7 @@ random.seed(42)
 idx_list = []
 idx_list.append(random.sample(range(len(data.test_epochs())), 2))
 idx_list.append(random.sample(range(len(data.test_epochs())), 5))
-idx_list.append(random.sample(range(len(data.test_epochs())), 20))
+#idx_list.append(random.sample(range(len(data.test_epochs())), 20))
 #idx_list.append(random.sample(range(len(data.test_epochs())), 50))
 idx_list.append(random.sample(range(len(data.test_epochs())), len(data.test_epochs())))
 

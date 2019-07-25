@@ -13,10 +13,10 @@
 
 #%% Imports
 import sys
-sys.path.append("./I_cmne/I_hyperparameter_evaluation") #Add relative path to include modules
-
-from helpers.cmnesettings import CMNESettings
-from helpers.cmnedata import CMNEData
+sys.path.append('/autofs/cluster/fusion/john/projects/cmne/github/cmne/I_implementation/helpers')
+sys.path.append('/autofs/cluster/fusion/john/projects/cmne/github/cmne/I_implementation/I_cmne/I_hyperparameter_evaluation')
+from cmnesettings import CMNESettings
+from cmnedata import CMNEData
 
 import config as cfg
 
@@ -44,15 +44,17 @@ data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 #%% Evaluate
 
 # num units d
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [80], 'num_units': [10,20,40,80,160,320,640,1280]}
-eval_hyper(data_settings, data, training_settings)
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 10, 'lstm_look_backs': [10,80,160], 'num_units': [640]}#[10,20,40,80,160,320,640,1280]}
+#eval_hyper(data_settings, data, training_settings)
 
 # look back k
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,20,40,80,160,320,480], 'num_units': [1280]}
-eval_hyper(data_settings, data, training_settings)
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,20,40,80,160,320,480], 'num_units': [1280]}
+#eval_hyper(data_settings, data, training_settings)
 
 # future steps
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [80], 'num_units': [640], 'future_steps': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,80,160], 'num_units': [10,320,1280], 'future_steps': [1, 4, 8]}
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 25, 'lstm_look_backs': [10,20], 'num_units': [10,20], 'future_steps': [1, 4]}
+
 eval_hyper(data_settings, data, training_settings)
 
 # topology

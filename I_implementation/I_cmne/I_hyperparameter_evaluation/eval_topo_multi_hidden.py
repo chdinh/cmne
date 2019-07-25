@@ -33,9 +33,9 @@ from keras.layers import LSTM
 
 #from keras.callbacks import TensorBoard
 
-from helpers.cmnesettings import CMNESettings
-from helpers.cmnedata import CMNEData
-from helpers.cmnedata import generate_lstm_batches
+from cmnesettings import CMNESettings
+from cmnedata import CMNEData
+from cmnedata import generate_lstm_batches
 
 def eval_topo_multi_hidden(data_settings, data, training_settings):
     ###################################################################################################
