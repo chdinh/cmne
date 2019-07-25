@@ -16,6 +16,9 @@
 
 #==================================================================================
 #%%
+import sys
+sys.path.append("../..") #Add relative path to include modules
+
 import numpy as np
 import random
 import matplotlib
@@ -30,9 +33,10 @@ from mne.minimum_norm import apply_inverse
 
 from keras.models import load_model
 
-import modules.biodata as bd
-from modules.biosettings import BioSettings
-from modules.biodata import BioData
+import helpers.cmnedata as bd
+from helpers.cmnesettings import CMNESettings
+from helpers.cmnedata import CMNEData
+
 
 ###################################################################################################
 # The Script
