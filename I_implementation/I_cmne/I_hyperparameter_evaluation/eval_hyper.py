@@ -33,10 +33,10 @@ from keras.layers import LSTM
 
 from keras.callbacks import TensorBoard
 
-from helpers.cmnesettings import CMNESettings
-from helpers.cmnedata import CMNEData
-from helpers.cmnedata import generate_lstm_batches
-from helpers.cmnedata import generate_lstm_future_batches
+from cmnesettings import CMNESettings
+from cmnedata import CMNEData
+from cmnedata import generate_lstm_batches
+from cmnedata import generate_lstm_future_batches
 
 
 def eval_hyper(data_settings, data, training_settings):
@@ -118,7 +118,9 @@ def eval_hyper(data_settings, data, training_settings):
                 print("\n\n>>>> Starting next iteration (Look back = %d, Number of Units back = %d) <<<<\n" % (lstm_look_back, num_unit))
                 #time_steps_in = lstm_look_back
                 # create the Data Generator
-                data_generator = generate_lstm_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=training_settings['minibatch_size'])
+                data_generator = generate_lstm_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), \
+                                                       lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, \
+                                                       batch_size=training_settings['minibatch_size'])
     
                 # create LSTM model
                 model = None
@@ -130,7 +132,9 @@ def eval_hyper(data_settings, data, training_settings):
                 model.compile(loss = 'mean_squared_error', optimizer = 'adam')
     
                 # Train - fit the model :D
-                fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=None, class_weight=None, workers=1) #, callbacks=[tbCallBack])
+                fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], \
+                                                     epochs=training_settings['num_epochs'], verbose=1, validation_data=None, \
+                                                     class_weight=None, workers=1) #, callbacks=[tbCallBack])
     
                 # # let's get some predictions
                 # test_predict = model.predict(test_features)
@@ -143,7 +147,8 @@ def eval_hyper(data_settings, data, training_settings):
                 date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
     
                 # save model
-                fname_model = data_settings.results_cmne_dir() + '/I_models/eval_hyper_model_' + data_settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
+                fname_model = data_settings.results_cmne_dir() + '/I_models/eval_hyper_model_' + data_settings.modality() + \
+                '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
                 model.save(fname_model)
     
                 # # plot the data
@@ -178,8 +183,16 @@ def eval_hyper(data_settings, data, training_settings):
     plt.xlabel('Minibatch number')
     plt.ylabel('Loss')
     plt.title('Minibatch run vs. Training loss')
-    for i in range(len(history_losses)):
-        plt.plot(history_losses[i], label='NU %s'%training_settings['num_units'][i])
+    c=0
+    for k in range(len(training_settings['num_units'])):
+        for l in range(len(training_settings['num_units'])):
+            for m in range(len(training_settings['num_units'])):
+                leg = 'num_units = ' + str(training_settings['num_units'][k]) + \
+                'lstm_look_backs = ' + str(training_settings['lstm_look_backs'][l]) + \
+                'future_steps = ' + str(training_settings['future_steps'][m])
+                plt.plot(history_losses[c], label=leg)
+                c = c+1
+                                
     plt.legend()
     #axes = plt.gca()
     #axes.set_xlim([xmin,xmax])
@@ -189,4 +202,4 @@ def eval_hyper(data_settings, data, training_settings):
     
     fname_overall_fig = data_settings.results_cmne_dir() + '/IV_img/eval_hyper_loss_' + data_settings.modality() + '_overall_nu_' + date_stamp + '.png'
     plt.savefig(fname_overall_fig, dpi=300)
-    #plt.show()
+    plt.show()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-repo_path='D:/Users/Christoph/Git/cmne/'
-data_path='D:/Data/MEG/jgs/170505/processed/'
+repo_path='/autofs/cluster/fusion/john/projects/cmne/github/cmne/'
+data_path='/autofs/cluster/fusion/john/projects/cmne/assr_data/'
 
 fname_raw='assr_270LP_fs900_raw.fif'
 fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif'
