@@ -18,7 +18,8 @@
 #==================================================================================
 #%%
 import sys
-sys.path.append("..") #Add relative path to include modules
+sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/helpers')
+sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/I_cmne/I_hyperparameter_evaluation')
 
 import numpy as np
 import random
@@ -35,9 +36,9 @@ from mne.minimum_norm import apply_inverse
 from keras import backend as K
 from keras.models import load_model
 
-import helpers.cmnedata as bd
-from helpers.cmnesettings import CMNESettings
-from helpers.cmnedata import CMNEData
+import cmnedata as bd
+from cmnesettings import CMNESettings
+from cmnedata import CMNEData
 
 
 
@@ -47,7 +48,11 @@ from helpers.cmnedata import CMNEData
 
 event_id, tmin, tmax = 1, -0.5, 1.0
 # 1 - ASSR
-fname_model = 'D:/Data/Models/bio/best_models/Model_Opt_5_sim_meg-eeg_nu_1280_lb_80_2018-02-03_114734.h5'
+
+
+fname_model = 'D:/Users/Christoph/Git/cmne/III_results/I_cmne/I_models/eval_hyper_model_meg-eeg_fs_4_nu_20_lb_20_2020-06-30_204810.h5'
+#fname_model = 'D:/Data/Models/bio/best_models/Model_Opt_5_sim_meg-eeg_nu_1280_lb_80_2018-02-03_114734.h5'
+
 settings = CMNESettings(repo_path='D:/Users/Christoph/Git/bio/', data_path='D:/Data/Simulation/',
                        fname_raw='SpikeSim250_processed_fs900_raw.fif',
                        fname_inv='SpikeSim250_processed_fs900_raw-ico-4-meg-eeg-inv.fif',

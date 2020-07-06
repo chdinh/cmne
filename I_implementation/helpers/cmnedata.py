@@ -162,7 +162,7 @@ class CMNEData(object):
 	###############################################################################################
 	# Load Data
 	###############################################################################################
-    def load_data(self, event_id=1, tmin=-0.2, tmax=0.5):
+    def load_data(self, event_id=1, tmin=-0.2, tmax=0.5, train_percentage = 0.85):
 		# Load data
         inverse_operator = read_inverse_operator(self._cmne_settings.fname_inv())
         raw = mne.io.read_raw_fif(self._cmne_settings.fname_raw())
@@ -207,7 +207,7 @@ class CMNEData(object):
         else:
             #split train and test
             random.seed(42)
-            self._train_idcs = random.sample(range(num_epochs), (int)(num_epochs*0.85))
+            self._train_idcs = random.sample(range(num_epochs), (int)(num_epochs*train_percentage))
             self._test_idcs = [item for item in whole_list if item not in self._train_idcs]
             with open(self._cmne_settings.fname_test_idcs(), "w") as f:
                 for idx in self._test_idcs:
@@ -523,7 +523,7 @@ def generate_lstm_batches(epochs, inverse_operator, lambda2, method, look_back=4
         # Compute inverse solution and stcs for each epoch
         # Use the same inverse operator as with evoked data (i.e., set nave)
         # If you use a different nave, dSPM just scales by a factor sqrt(nave)
-        sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
+        #sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
         sel_epochs.apply_proj()
         
         stcs = apply_inverse_epochs(sel_epochs, inverse_operator, lambda2, method, pick_ori="normal", nave=nave)

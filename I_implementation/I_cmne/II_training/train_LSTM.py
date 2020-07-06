@@ -31,7 +31,7 @@ from helpers.cmnesettings import CMNESettings
 from helpers.cmnedata import CMNEData
 from helpers.cmnedata import generate_lstm_batches
 
-def train_LSTM(settings, data):
+def train_LSTM(settings, data, idx=None):
     ###################################################################################################
     # Configuration
     ###################################################################################################
@@ -53,10 +53,10 @@ def train_LSTM(settings, data):
     
     # TensorBoard Callback
     tbCallBack = TensorBoard(log_dir=settings.tb_log_dir(), histogram_freq=1, write_graph=True, write_images=True)
-    
+
     #time_steps_in = lstm_look_back
     # create the Data Generator
-    data_generator = generate_lstm_batches(epochs=data.train_epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=minibatch_size)
+    data_generator = generate_lstm_batches(epochs=data.train_epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, batch_size=minibatch_size)
     
     # create LSTM model
     model = None
