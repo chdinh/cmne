@@ -38,7 +38,7 @@ class CMNESettings(object):
     ###############################################################################################
     # Constructor
     ###############################################################################################
-    def __init__(self, repo_path='C:/Git/cmne/', data_path='Z:/MEG/jgs/170505/processed/', 
+    def __init__(self, repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/', 
                  fname_raw='assr_270LP_fs900_raw.fif',
                  fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
                  fname_eve='assr_270LP_fs900_raw-eve.fif',

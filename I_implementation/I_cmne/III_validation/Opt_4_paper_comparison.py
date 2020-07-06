@@ -74,8 +74,8 @@ event_id, tmin, tmax = 1, -0.5, 1.0
 #                       fname_eve='SpikeSim2000_fs900_raw-eve.fif',
 #                       fname_test_idcs='SpikeSim2000_fs900_raw-test-idcs.txt')
 
-fname_model = '/autofs/cluster/fusion/john/projects/cmne/github/cmne/III_results/I_cmne/I_models/eval_hyper_model_meg-eeg_fs_7_nu_640_lb_80_2019-07-24_101714.h5'
-settings = BioSettings(repo_path='/autofs/cluster/fusion/john/projects/cmne/github/cmne/', data_path='/autofs/cluster/fusion/john/projects/cmne/assr_data/',
+fname_model = 'D:/Users/Christoph/Git/cmne/III_results/I_cmne/I_models/eval_hyper_model_meg-eeg_fs_7_nu_640_lb_80_2019-07-24_101714.h5'
+settings = BioSettings(repo_path='D:/Users/Christoph/Git/cmne', data_path='D:/Data/MEG/jgs/170505/processed',
                        fname_raw='assr_270LP_fs900_raw.fif',
                        fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
                        fname_eve='assr_270LP_fs900_raw-eve.fif',

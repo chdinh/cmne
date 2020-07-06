@@ -622,7 +622,7 @@ def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look
         #%% select random epochs
         idx = np.random.randint(train_max, size=batch_size)
         sel_epochs = epochs[idx]
-        sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
+        #sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
         sel_epochs.apply_proj()
 
         # Compute inverse solution and stcs for each epoch
