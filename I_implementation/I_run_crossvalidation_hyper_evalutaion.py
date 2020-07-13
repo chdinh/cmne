@@ -24,23 +24,20 @@ from helpers.cmnedata import CMNEData
 import config as cfg
 import random
 
-from train_LSTM import train_LSTM
+import config as cfg
 
-#%% Settings
-# 0 - Sample Data
-#settings = CMNESettings(repo_path='D:/Git/cmne/', data_path='D:/Git/mne-cpp/bin/MNE-sample-data/',
-#                       fname_raw='sample_audvis_filt-0-40_raw.fif',
-#                       fname_inv='sample_audvis-meg-eeg-oct-6-meg-eeg-inv.fif',
-#                       fname_eve='sample_audvis_filt-0-40_raw-eve.fif',
-#                       fname_test_idcs='sample_audvis-test-idcs.txt')
-# 1 - Local
-#settings = CMNESettings(repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/')
-settings = CMNESettings(repo_path=cfg.repo_path, data_path=cfg.data_path,
-                        fname_raw=cfg.fname_raw,
-                        fname_inv=cfg.fname_inv,
-                        fname_eve=cfg.fname_eve,
-                        fname_test_idcs=cfg.fname_test_idcs
-                       )
+from eval_hyper import eval_hyper
+from eval_topo_multi_hidden import eval_topo_multi_hidden
+
+
+#%% Data Settings
+data_settings = CMNESettings(   repo_path=cfg.repo_path, data_path=cfg.data_path,
+                                fname_raw=cfg.fname_raw,
+                                fname_inv=cfg.fname_inv,
+                                fname_eve=cfg.fname_eve,
+                                fname_test_idcs=cfg.fname_test_idcs,
+                                meg_and_eeg=cfg.meg_and_eeg
+                            )
 
 
 #%% Data
@@ -48,17 +45,30 @@ event_id, tmin, tmax = 1, -0.2, 0.5
 train_percentage = 0.85
 cross_validation_percentage = 0.85
 
-data = CMNEData(cmne_settings=settings)
+data = CMNEData(cmne_settings=data_settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax, train_percentage=train_percentage)
+
+# num units d
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 10, 'lstm_look_backs': [10,80,160], 'num_units': [640]}#[10,20,40,80,160,320,640,1280]}
+#eval_hyper(data_settings, data, training_settings)
+
+# look back k
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,20,40,80,160,320,480], 'num_units': [1280]}
+#eval_hyper(data_settings, data, training_settings)
+
+# future steps
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,80,160], 'num_units': [10,320,1280], 'future_steps': [1, 4, 8]}
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 25, 'lstm_look_backs': [10,20], 'num_units': [10,20], 'future_steps': [1, 4]}
 
 num_train_idcs = len(data.train_idcs())
 
 num_cross_iterations = 10
 fname_cross_validation_idcs_prefix = 'assr_270LP_fs900_cross_idcs_it_'
+
 #%% Evaluate
 
 for iteration in range(num_cross_iterations):
-    fname_cross_validation_idcs = settings.data_path() + fname_cross_validation_idcs_prefix + str(iteration) + '.txt'
+    fname_cross_validation_idcs = data_settings.data_path() + fname_cross_validation_idcs_prefix + str(iteration) + '.txt'
 
     if os.path.isfile(fname_cross_validation_idcs):
         cross_validation_train_idcs = []
@@ -72,5 +82,8 @@ for iteration in range(num_cross_iterations):
         with open(fname_cross_validation_idcs, "w") as f:
             for idx in cross_validation_train_idcs:
                 f.write(str(idx) +"\n")
-    #%% train
-    train_LSTM(settings, data, idx=cross_validation_train_idcs)
+
+    eval_hyper(data_settings, data, training_settings)
+
+    # topology
+    #eval_topo_multi_hidden(data_settings, data, training_settings)

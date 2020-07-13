@@ -518,14 +518,18 @@ def generate_lstm_batches(epochs, inverse_operator, lambda2, method, look_back=4
 
     while True:
         # select random epochs
-        idx = random.sample(range(train_max), batch_size)
+        #idx = random.sample(range(train_max), batch_size)
+        idx = np.random.randint(train_max, size=batch_size)
         sel_epochs = epochs[idx]
         # Compute inverse solution and stcs for each epoch
         # Use the same inverse operator as with evoked data (i.e., set nave)
         # If you use a different nave, dSPM just scales by a factor sqrt(nave)
         #sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
         sel_epochs.apply_proj()
-        
+
+        # Compute inverse solution and stcs for each epoch
+        # Use the same inverse operator as with evoked data (i.e., set nave)
+        # If you use a different nave, dSPM just scales by a factor sqrt(nave)
         stcs = apply_inverse_epochs(sel_epochs, inverse_operator, lambda2, method, pick_ori="normal", nave=nave)
 
         # Attention - just an approximation, since not all stc are considered for the mean and the std
@@ -622,6 +626,10 @@ def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look
         #%% select random epochs
         idx = np.random.randint(train_max, size=batch_size)
         sel_epochs = epochs[idx]
+        
+        # Compute inverse solution and stcs for each epoch
+        # Use the same inverse operator as with evoked data (i.e., set nave)
+        # If you use a different nave, dSPM just scales by a factor sqrt(nave)
         #sel_epochs = mne.set_eeg_reference(sel_epochs, ref_channels=None, copy=True)[0]
         sel_epochs.apply_proj()
 

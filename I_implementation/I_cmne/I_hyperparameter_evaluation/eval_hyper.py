@@ -39,7 +39,7 @@ from cmnedata import generate_lstm_batches
 from cmnedata import generate_lstm_future_batches
 
 
-def eval_hyper(data_settings, data, training_settings):
+def eval_hyper(data_settings, data, training_settings, idx=None):
 
     ###################################################################################################
     # The Script
@@ -63,8 +63,9 @@ def eval_hyper(data_settings, data, training_settings):
                     
                     #time_steps_in = lstm_look_back
                     # create the Data Generator
-                    data_generator = generate_lstm_future_batches(epochs=data.epochs(), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
-                
+                    #data_generator = generate_lstm_future_batches(epochs=data.epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
+                    data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
+
                     # create LSTM model
                     model = None
                     model = Sequential()
