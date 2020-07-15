@@ -13,12 +13,15 @@
 
 #%%
 import os
+import sys
+sys.path.append('../helpers') #Add relative path to include modules
+
 import numpy as np
 import random
 import mne
 from mne.minimum_norm import apply_inverse_epochs, read_inverse_operator
 
-from cmnesettings import CMNESettings
+from helpers.cmnesettings import CMNESettings
 
 
 ###################################################################################################

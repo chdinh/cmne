@@ -14,9 +14,9 @@
 #%% Imports
 import os
 import sys
-sys.path.append('../I_implementation/I_cmne/II_training') #Add relative path to include modules
-sys.path.append('../I_implementation/helpers')
-sys.path.append('../I_implementation/I_cmne/I_hyperparameter_evaluation')
+sys.path.append('./I_cmne') #Add relative path to include modules
+sys.path.append('./helpers')
+sys.path.append('./I_hyperparameter_evaluation')
 
 from helpers.cmnesettings import CMNESettings
 from helpers.cmnedata import CMNEData
@@ -24,7 +24,7 @@ from helpers.cmnedata import CMNEData
 import config as cfg
 import random
 
-from train_LSTM import train_LSTM
+from I_cmne.II_training.train_LSTM import train_LSTM
 
 #%% Settings
 # 0 - Sample Data
