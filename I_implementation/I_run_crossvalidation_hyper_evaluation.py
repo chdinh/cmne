@@ -21,10 +21,8 @@ sys.path.append('../I_implementation/I_cmne/I_hyperparameter_evaluation')
 from helpers.cmnesettings import CMNESettings
 from helpers.cmnedata import CMNEData
 
-import config as cfg
+import config_md as cfg
 import random
-
-import config as cfg
 
 from eval_hyper import eval_hyper
 from eval_topo_multi_hidden import eval_topo_multi_hidden
