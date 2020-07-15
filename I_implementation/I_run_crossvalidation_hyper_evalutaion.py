@@ -14,9 +14,9 @@
 #%% Imports
 import os
 import sys
-sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/I_cmne/II_training') #Add relative path to include modules
-sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/helpers')
-sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/I_cmne/I_hyperparameter_evaluation')
+sys.path.append('../I_implementation/I_cmne/II_training') #Add relative path to include modules
+sys.path.append('../I_implementation/helpers')
+sys.path.append('../I_implementation/I_cmne/I_hyperparameter_evaluation')
 
 from helpers.cmnesettings import CMNESettings
 from helpers.cmnedata import CMNEData

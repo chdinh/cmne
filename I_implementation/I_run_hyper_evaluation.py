@@ -13,8 +13,8 @@
 
 #%% Imports
 import sys
-sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/helpers')
-sys.path.append('D:/Users/Christoph/Git/cmne/I_implementation/I_cmne/I_hyperparameter_evaluation')
+sys.path.append('../I_implementation/helpers')
+sys.path.append('../I_implementation/I_cmne/I_hyperparameter_evaluation')
 from cmnesettings import CMNESettings
 from cmnedata import CMNEData
 
