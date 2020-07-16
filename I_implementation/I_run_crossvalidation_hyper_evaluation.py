@@ -55,8 +55,9 @@ data.load_data(event_id=event_id, tmin=tmin, tmax=tmax, train_percentage=train_p
 #eval_hyper(data_settings, data, training_settings)
 
 # future steps
+training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,80,160], 'num_units': [10,160,1280], 'future_steps': [1]}
 #training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250, 'lstm_look_backs': [10,80,160], 'num_units': [10,320,1280], 'future_steps': [1, 4, 8]}
-training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 25, 'lstm_look_backs': [10,20], 'num_units': [10,20], 'future_steps': [1, 4]}
+#training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 25, 'lstm_look_backs': [10,20], 'num_units': [10,20], 'future_steps': [1, 4]}
 
 num_train_idcs = len(data.train_idcs())
 
