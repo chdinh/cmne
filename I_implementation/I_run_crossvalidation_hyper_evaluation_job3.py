@@ -14,14 +14,16 @@
 #%% Imports
 import os
 import sys
-sys.path.append('../I_implementation/I_cmne/II_training') #Add relative path to include modules
-sys.path.append('../I_implementation/helpers')
-sys.path.append('../I_implementation/I_cmne/I_hyperparameter_evaluation')
+
+import config as cfg
+
+sys.path.append(cfg.repo_path + 'I_implementation/I_cmne/II_training') #Add relative path to include modules
+sys.path.append(cfg.repo_path + 'I_implementation/helpers')
+sys.path.append(cfg.repo_path + 'I_implementation/I_cmne/I_hyperparameter_evaluation')
 
 from helpers.cmnesettings import CMNESettings
 from helpers.cmnedata import CMNEData
 
-import config_md as cfg
 import random
 
 from eval_hyper import eval_hyper
@@ -62,27 +64,31 @@ training_settings = {'minibatch_size': 30, 'steps_per_ep': 20, 'num_epochs': 250
 num_train_idcs = len(data.train_idcs())
 
 num_cross_iterations = 10
-fname_cross_validation_idcs_prefix = 'assr_270LP_fs900_cross_idcs_it_'
+fname_cross_validation_idcs_prefix = 'assr_270LP_fs900_cross_idcs_job3_it_'
 
 #%% Evaluate
 
 for iteration in range(num_cross_iterations):
     fname_cross_validation_idcs = data_settings.data_path() + fname_cross_validation_idcs_prefix + str(iteration) + '.txt'
 
+    whole_list = list(range(num_train_idcs))
+
     if os.path.isfile(fname_cross_validation_idcs):
         cross_validation_train_idcs = []
-        with open(fname_cross_validation_idcs, "r") as f:
+        with open(cross_validation_train_idcs, "r") as f:
             for line in f:
                 cross_validation_train_idcs.append(int(line.strip()))
+        cross_validation_test_idcs = [item for item in whole_list if item not in cross_validation_train_idcs]
     else:
         #split train and test
         random.seed(42)
         cross_validation_train_idcs = random.sample(range(num_train_idcs), (int)(num_train_idcs*cross_validation_percentage))
+        cross_validation_test_idcs = [item for item in whole_list if item not in cross_validation_train_idcs]
         with open(fname_cross_validation_idcs, "w") as f:
             for idx in cross_validation_train_idcs:
                 f.write(str(idx) +"\n")
 
-    eval_hyper(data_settings, data, training_settings)
+    eval_hyper(data_settings, data, training_settings, idx=cross_validation_train_idcs, idx_test=cross_validation_test_idcs)
 
     # topology
     #eval_topo_multi_hidden(data_settings, data, training_settings)
