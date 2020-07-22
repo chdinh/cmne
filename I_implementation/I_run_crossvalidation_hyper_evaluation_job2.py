@@ -76,7 +76,7 @@ for iteration in range(num_cross_iterations):
 
     if os.path.isfile(fname_cross_validation_idcs):
         cross_validation_train_idcs = []
-        with open(cross_validation_train_idcs, "r") as f:
+        with open(fname_cross_validation_idcs, "r") as f:
             for line in f:
                 cross_validation_train_idcs.append(int(line.strip()))
         cross_validation_test_idcs = [item for item in whole_list if item not in cross_validation_train_idcs]
