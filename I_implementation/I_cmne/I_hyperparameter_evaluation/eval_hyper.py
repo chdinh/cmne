@@ -48,6 +48,8 @@ def eval_hyper(data_settings, data, training_settings, idx=None, idx_test=None):
     num_features_in = data.inv_op()['nsource']
     num_labels_out = num_features_in
 
+    num_tests = len(idx_test)
+
     # TensorBoard Callback
     tbCallBack = TensorBoard(log_dir=data_settings.tb_log_dir(), histogram_freq=1, write_graph=True, write_images=True)
 
@@ -65,6 +67,7 @@ def eval_hyper(data_settings, data, training_settings, idx=None, idx_test=None):
                     # create the Data Generator
                     #data_generator = generate_lstm_future_batches(epochs=data.epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
                     data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
+
                     test_data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx_test), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
 
                     # create LSTM model
@@ -77,7 +80,7 @@ def eval_hyper(data_settings, data, training_settings, idx=None, idx_test=None):
                     model.compile(loss = 'mean_squared_error', optimizer = 'adam')
                 
                     # Train - fit the model :D
-                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=test_data_generator, class_weight=None, workers=1) #, callbacks=[tbCallBack])
+                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=test_data_generator, validation_steps=num_tests, class_weight=None, workers=1, use_multiprocessing=True) #, callbacks=[tbCallBack])
                 
                     # # let's get some predictions
                     # test_predict = model.predict(test_features)
