@@ -79,7 +79,7 @@ def eval_hyper(data_settings, data, training_settings, idx=None, idx_test=None):
                     model.compile(loss = 'mean_squared_error', optimizer = 'adam')
                 
                     # Train - fit the model :D
-                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=test_data_generator, validation_steps=num_tests, class_weight=None, workers=1, use_multiprocessing=True) #, callbacks=[tbCallBack])
+                    fitting_result = model.fit_generator(data_generator, steps_per_epoch=training_settings['steps_per_ep'], epochs=training_settings['num_epochs'], verbose=1, validation_data=test_data_generator, validation_steps=num_tests, class_weight=None, workers=1, use_multiprocessing=False) #, callbacks=[tbCallBack])
                 
                     # # let's get some predictions
                     # test_predict = model.predict(test_features)
