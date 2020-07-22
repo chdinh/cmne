@@ -65,7 +65,7 @@ def eval_hyper(data_settings, data, training_settings, idx=None, idx_test=None):
                     # create the Data Generator
                     #data_generator = generate_lstm_future_batches(epochs=data.epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
                     data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
-                    test_data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx_test), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'])
+                    test_data_generator = generate_lstm_future_batches(epochs=data.train_epochs(idx=idx_test), inverse_operator=data.inv_op(), lambda2=data.lambda2(), method=data.method(), look_back=lstm_look_back, future_steps=fs, batch_size=training_settings['minibatch_size'], loop=False)
 
                     # create LSTM model
                     model = None

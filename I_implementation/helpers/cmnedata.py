@@ -609,7 +609,7 @@ def generate_lstm_eval_batches(epochs, inverse_operator, lambda2, method, look_b
 # Generate LSTM Future Batches
 ###################################################################################################
 
-def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look_back=40, future_steps=1, batch_size=20):
+def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look_back=40, future_steps=1, batch_size=20, loop=True):
     """
     Create the Batches
     """
@@ -625,7 +625,11 @@ def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look
     train_max = num_epochs
 
     #%%
-    while True:
+    condition = True
+    while condition:
+        if loop == False
+            condition = False
+            
         #%% select random epochs
         idx = np.random.randint(train_max, size=batch_size)
         sel_epochs = epochs[idx]
