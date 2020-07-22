@@ -627,9 +627,9 @@ def generate_lstm_future_batches(epochs, inverse_operator, lambda2, method, look
     #%%
     condition = True
     while condition:
-        if loop == False
+        if loop == False:
             condition = False
-            
+
         #%% select random epochs
         idx = np.random.randint(train_max, size=batch_size)
         sel_epochs = epochs[idx]
