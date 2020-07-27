@@ -15,7 +15,7 @@
 import os
 import sys
 
-import config as cfg
+import config_md as cfg
 
 sys.path.append(cfg.repo_path + 'I_implementation/I_cmne/II_training') #Add relative path to include modules
 sys.path.append(cfg.repo_path + 'I_implementation/helpers')
