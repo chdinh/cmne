@@ -44,7 +44,7 @@ data_settings = CMNESettings(   repo_path=cfg.repo_path, data_path=cfg.data_path
 #%% Data
 event_id, tmin, tmax = 1, -0.2, 0.5
 train_percentage = 0.85
-cross_validation_percentage = 0.85
+cross_validation_percentage = 0.9 #0.85
 
 data = CMNEData(cmne_settings=data_settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax, train_percentage=train_percentage)
