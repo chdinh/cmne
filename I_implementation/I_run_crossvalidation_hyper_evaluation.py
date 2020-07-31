@@ -69,7 +69,8 @@ fname_cross_validation_idcs_prefix = 'assr_270LP_fs900_cross_idcs_it_'
 #%% Evaluate
 
 for iteration in range(num_cross_iterations):
-    fname_cross_validation_idcs = data_settings.data_path() + fname_cross_validation_idcs_prefix + str(iteration) + '.txt'
+    date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
+    fname_cross_validation_idcs = data_settings.results_cmne_dir() + '/V_crossvalidation_idcs/' + fname_cross_validation_idcs_prefix + str(iteration) + '_' + date_stamp + '.txt'
 
     whole_list = list(range(num_train_idcs))
 

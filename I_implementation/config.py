@@ -2,8 +2,8 @@
 #repo_path='/autofs/cluster/fusion/john/projects/cmne/github/cmne/'
 #data_path='/autofs/cluster/fusion/john/projects/cmne/assr_data/'
 
-#repo_path='D:/Users/Christoph/Git/cmne/'
-repo_path='D:/Users/chris/Git/cmne/'
+repo_path='D:/Users/Christoph/Git/cmne/'
+#repo_path='D:/Users/chris/Git/cmne/'
 data_path='D:/Data/MEG/jgs/170505/processed/'
 
 

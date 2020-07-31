@@ -92,11 +92,11 @@ data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 random.seed(42)
 idx_list = []
-idx_list.append(random.sample(range(len(data.test_epochs())), 2))
-idx_list.append(random.sample(range(len(data.test_epochs())), 5))
-#idx_list.append(random.sample(range(len(data.test_epochs())), 20))
+#idx_list.append(random.sample(range(len(data.test_epochs())), 2))
+#idx_list.append(random.sample(range(len(data.test_epochs())), 5))
+idx_list.append(random.sample(range(len(data.test_epochs())), 20))
 #idx_list.append(random.sample(range(len(data.test_epochs())), 50))
-idx_list.append(random.sample(range(len(data.test_epochs())), len(data.test_epochs())))
+#idx_list.append(random.sample(range(len(data.test_epochs())), len(data.test_epochs())))
 
 
 #%%
