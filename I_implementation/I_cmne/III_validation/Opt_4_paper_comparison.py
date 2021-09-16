@@ -113,8 +113,8 @@ for idx in idx_list:
     stc_dSPM = apply_inverse(evoked, data.inv_op(), data.lambda2(), data.method(), pick_ori="normal")
     
     # Abs Max Normalization
-    stc_dSPM._data = np.absolute(stc_dSPM.data)
-    stc_dSPM._data = stc_dSPM.data / stc_dSPM.data.max()
+    stc_dSPM._data = np.absolute(stc_dSPM.data) # TBD: Remove this line in a future version - think about the reason
+    stc_dSPM._data = stc_dSPM.data / stc_dSPM.data.max() # TBD: Remove this line in a future version - since it is z scored down
     
     
 #    ###################################################################################################
