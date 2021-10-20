@@ -2,3 +2,5 @@
 /II_data/Simulations/__pycache__
 /I_implementation/helpers/__pycache__
 /I_implementation/__pycache__
+/.eggs
+/dist
