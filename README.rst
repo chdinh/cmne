@@ -13,6 +13,7 @@ Contextual Minimum-Norm Estimates (CMNE): A Deep Learning Method for Source Esti
 ===========================================================================================================
 
 For more information on CMNE, please read the following papers:
+
   Dinh C, Samuelsson JGW*, Hunold A, Hämäläinen MS, Khan S. Contextual MEG and EEG Source Estimates Using Spatiotemporal LSTM Networks. Front. Neurosci 2021;15:119-134; doi: https://doi.org/10.3389/fnins.2021.552666
 
   Dinh C, Samuelsson JGW*, Hunold A, Hämäläinen MS, Khan S. Contextual Minimum-Norm Estimates (CMNE): A Deep Learning Method for Source Estimation in Neuronal Networks. arXiv:1909.02636; doi: https://doi.org/10.48550/arXiv.1909.02636
