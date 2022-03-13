@@ -52,7 +52,7 @@ if __name__ == "__main__":
     if op.exists('MANIFEST'):
         os.remove('MANIFEST')
 
-    with open('README.md', 'r') as fid:
+    with open('README.rst', 'r') as fid:
         long_description = fid.read()
 
     install_requires = list()
