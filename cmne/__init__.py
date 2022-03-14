@@ -17,3 +17,7 @@
 #
 
 from ._version import __version__
+
+from settings import (Settings)
+from data import (Data)
+from train import (train)

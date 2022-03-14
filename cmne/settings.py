@@ -1,25 +1,23 @@
-#**
-# @file     cmnesettings.py
-# @author   Christoph Dinh <chdinh@nmr.mgh.harvard.edu>
-# @version  1.0
-# @date     September, 2017
-#
-# @section  LICENSE
-#
-# Copyright (C) 2017, Christoph Dinh. All rights reserved.
-#
-# @brief    CMNESettings
-#**
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# ---------------------------------------------------------------------------
+# @authors   Christoph Dinh <christoph.dinh@brain-link.de>
+#            John G Samuelson <johnsam@mit.edu>
+# @version   1.0
+# @date      September, 2017
+# @copyright Copyright (c) 2017-2022, authors of CMNE. All rights reserved.
+# @license   MIT
+# @brief     Settings
+# ---------------------------------------------------------------------------
 
-#==================================================================================
 #%%
 import os
 
 ###################################################################################################
-# CMNESettings class
+# Settings class
 ###################################################################################################
 
-class CMNESettings(object):
+class Settings(object):
     """the settings object
 
     Attributes:
