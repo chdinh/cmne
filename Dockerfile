@@ -16,4 +16,4 @@ RUN mkdir /workspace/results
 RUN mkdir /workspace/cmne
 
 # Configure CMNE
-# RUN pip install cmne -U
+RUN pip install cmne
