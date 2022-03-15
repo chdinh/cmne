@@ -6,3 +6,7 @@
 /dist
 /build
 /cmne.egg-info
+/cmne/cmne.egg-info
+/cmne/__pycache__
+*.pyc
+*.h5
