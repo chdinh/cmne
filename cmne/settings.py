@@ -22,7 +22,7 @@ class Settings(object):
 
     Attributes:
         _data_path: Path to the MEG data.
-        _repo_path: Repository path
+        _result_path: Result path
         _fname_raw: Raw file
         _fname_inv: Inverse file
         _fname_event: Event file
@@ -36,7 +36,7 @@ class Settings(object):
     ###############################################################################################
     # Constructor
     ###############################################################################################
-    def __init__(self, repo_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/', 
+    def __init__(self, result_path='D:/Users/Christoph/Git/cmne/', data_path='D:/Data/MEG/jgs/170505/processed/', 
                  fname_raw='assr_270LP_fs900_raw.fif',
                  fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
                  fname_eve='assr_270LP_fs900_raw-eve.fif',
@@ -50,7 +50,7 @@ class Settings(object):
         else: 
             self._modality = 'meg'
         
-        self._repo_path = repo_path
+        self._result_path = result_path
         self._data_path = data_path
         
         self._fname_raw = self._data_path + fname_raw
@@ -59,30 +59,30 @@ class Settings(object):
         self._fname_test_idcs = self._data_path + fname_test_idcs
                 
         # Create directories for cmne results
-        if not os.path.isdir(self._repo_path + 'III_results'):
-            os.mkdir(self._repo_path + 'III_results')
+        if not os.path.isdir(self._result_path + 'III_results'):
+            os.mkdir(self._result_path + 'III_results')
             
         # CMNE
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne') 
-        self._results_cmne_dir = self._repo_path + 'III_results/I_cmne'
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/I_models'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne/I_models')
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/II_logs'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne/II_logs')
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/III_training'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne/III_training')
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/III_training'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne/III_training')
-        if not os.path.isdir(self._repo_path + 'III_results/I_cmne/IV_img'):
-            os.mkdir(self._repo_path + 'III_results/I_cmne/IV_img')
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne'):
+            os.mkdir(self._result_path + 'III_results/I_cmne') 
+        self._results_cmne_dir = self._result_path + 'III_results/I_cmne'
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne/I_models'):
+            os.mkdir(self._result_path + 'III_results/I_cmne/I_models')
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne/II_logs'):
+            os.mkdir(self._result_path + 'III_results/I_cmne/II_logs')
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne/III_training'):
+            os.mkdir(self._result_path + 'III_results/I_cmne/III_training')
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne/III_training'):
+            os.mkdir(self._result_path + 'III_results/I_cmne/III_training')
+        if not os.path.isdir(self._result_path + 'III_results/I_cmne/IV_img'):
+            os.mkdir(self._result_path + 'III_results/I_cmne/IV_img')
             
         
         # II_source_estimation
-        if not os.path.isdir(self._repo_path + 'III_results/II_source_estimation'):    
-            os.mkdir(self._repo_path + 'III_results/II_source_estimation')
+        if not os.path.isdir(self._result_path + 'III_results/II_source_estimation'):    
+            os.mkdir(self._result_path + 'III_results/II_source_estimation')
                     
-        self._tb_log_dir = self._repo_path + 'III_results/I_cmne/II_logs'
+        self._tb_log_dir = self._result_path + 'III_results/I_cmne/II_logs'
     
     
     ###############################################################################################
@@ -112,11 +112,11 @@ class Settings(object):
         """
         return self._data_path
         
-    def repo_path(self):
+    def result_path(self):
         """
         Returns the repository path
         """
-        return self._repo_path
+        return self._result_path
             
     def fname_raw(self):
         """

@@ -41,7 +41,7 @@ and run it with
 
 .. code-block:: bash
 
-    docker run -ti -v <YOUR SUBJECTS DIR>:/workspace/subjects -v <YOUR cmne GIT DIR>:/workspace/cmne --name CMNE brain-link/cmne:v0.01
+    docker run -ti -v <YOUR DATA DIR>:/workspace/data -v <YOUR cmne GIT DIR>:/workspace/results --name CMNE brain-link/cmne:v0.01
 
 It is convinient to install CMNE for development directly from the local repository. Change the directory to '/workspace/cmne' in the CLI of the Docker Container and run
 

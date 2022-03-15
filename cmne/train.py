@@ -24,9 +24,9 @@ from keras.layers import LSTM
 
 from keras.callbacks import TensorBoard
 
-from settings import Settings
-from data import Data
-from data import generate_lstm_batches
+from .settings import Settings
+from .data import Data
+from .data import generate_lstm_batches
 
 def train(settings, data, idx=None):
     ###################################################################################################
@@ -76,9 +76,9 @@ def train(settings, data, idx=None):
     ###################################################################################################
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
     
-    fname_model = settings.repo_path() + 'Results/Models/Model_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
-    fname_training_loss = settings.repo_path() + 'Results/Training/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
-    fname_resultfig = settings.repo_path() + 'Results/img/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
+    fname_model = settings.result_path() + 'Results/Models/Model_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
+    fname_training_loss = settings.result_path() + 'Results/Training/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
+    fname_resultfig = settings.result_path() + 'Results/img/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
     
     history_losses = fitting_result.history['loss']
     

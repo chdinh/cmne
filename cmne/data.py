@@ -12,15 +12,12 @@
 
 #%%
 import os
-import sys
-sys.path.append('../helpers') #Add relative path to include modules
-
 import numpy as np
 import random
 import mne
 from mne.minimum_norm import apply_inverse_epochs, read_inverse_operator
 
-from helpers.cmnesettings import CMNESettings
+from .settings import Settings
 
 
 ###################################################################################################
@@ -157,7 +154,7 @@ class Data(object):
 	###############################################################################################
 	# Constructor
 	###############################################################################################
-    def __init__(self, settings):
+    def __init__(self, settings: Settings):
         """Return a new CMNEData object."""
         self._settings = settings
 
