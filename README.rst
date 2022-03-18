@@ -28,6 +28,7 @@ To install the latest stable version of CMNE, you can use pip_ in a terminal:
 
     pip install -U cmne
 
+
 Usage of the Docker Container
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

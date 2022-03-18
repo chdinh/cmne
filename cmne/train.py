@@ -28,18 +28,34 @@ from .settings import Settings
 from .data import Data
 from .data import generate_lstm_batches
 
-def train(settings, data, idx=None):
-    ###################################################################################################
-    # Configuration
-    ###################################################################################################
+
+def train(
+    settings: Settings,
+    data: Data,
+    minibatch_size: int=30,
+    steps_per_ep: int=25,
+    num_epochs: int=100,
+    lstm_look_back:int=80,
+    num_unit = 1280,
+    idx: int=None,
+    verbose: bool=False
+) -> None:
+    """
+    Train the LSTM model.
+
+    Args:
+        settings: Settings object
+        data: Data object
+        minibatch_size: Size of the minibatches
+        steps_per_ep: Number of steps per epoch
+        num_epochs: Number of epochs
+        lstm_look_back: Number of time steps to look back
+        num_unit: Number of units in the LSTM layer
+        idx: Index of the subject to train
     
-    minibatch_size = 30
-    steps_per_ep = 25 #30
-    num_epochs = 100 #300
-    lstm_look_back = 80 #40 #100 #40
-    
-    num_unit = 1280
-    
+    Returns:
+        None
+    """    
     
     ###################################################################################################
     # The Script
@@ -74,6 +90,7 @@ def train(settings, data, idx=None):
     ###################################################################################################
     # Save Results
     ###################################################################################################
+    
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
     
     fname_model = settings.result_path() + 'Results/Models/Model_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
@@ -86,13 +103,14 @@ def train(settings, data, idx=None):
     model.save(fname_model)
     
     # # plot the data
-    # print('Testing Prediction',test_predict)
-    # print('Testing Reference',test_labels)
+    if verbose:
+        print('Testing Prediction',test_predict)
+        print('Testing Reference',test_labels)
     
     # save loss
     np.savetxt(fname_training_loss, fitting_result.history['loss'])
     
-    # save plot the data
+    # save data plot
     plt.figure()
     plt.plot(fitting_result.history['loss'])
     plt.xlabel('Minibatch number')
@@ -104,4 +122,7 @@ def train(settings, data, idx=None):
     fig = plt.gcf()
     fig.set_size_inches(8, 6)
     plt.savefig(fname_resultfig, dpi=300)
-    #plt.show()
+    
+    # plot data
+    if verbose:
+        plt.show()
