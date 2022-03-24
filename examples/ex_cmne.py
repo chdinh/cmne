@@ -33,7 +33,7 @@ import config as cfg
 ###################################################################################################
 
 #%% Settings
-settings = cmne.Settings(results_path=cfg.result_path, data_path=cfg.data_path,
+settings = cmne.Settings(results_path=cfg.results_path, data_path=cfg.data_path,
                     fname_raw=cfg.fname_raw,
                     fname_inv=cfg.fname_inv,
                     fname_eve=cfg.fname_eve,
@@ -46,8 +46,8 @@ data = cmne.Data(settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 #%% train
-fname_model = cmne.train(settings, data, num_epochs=1, steps_per_ep=1)
-
+#fname_model = cmne.train(settings, data, num_epochs=1, steps_per_ep=1)
+fname_model = settings.results_models_path() + '/model_meg-eeg_nu_1280_lb_80_2022-03-24_122855.h5'
 
 ###################################################################################################
 #%% Select random subset of epochs
