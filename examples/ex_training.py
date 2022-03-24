@@ -15,7 +15,7 @@ import cmne
 import config as cfg
 
 #%% Settings
-settings = cmne.Settings(result_path=cfg.result_path, data_path=cfg.data_path,
+settings = cmne.Settings(results_path=cfg.results_path, data_path=cfg.data_path,
                     fname_raw=cfg.fname_raw,
                     fname_inv=cfg.fname_inv,
                     fname_eve=cfg.fname_eve,

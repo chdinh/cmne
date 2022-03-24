@@ -41,13 +41,15 @@ settings = cmne.Settings(results_path=cfg.results_path, data_path=cfg.data_path,
                     )
 
 #%% Data
-event_id, tmin, tmax = 1, -0.2, 0.5
+event_id, tmin, tmax = 1, -0.5, 1.0
+#event_id, tmin, tmax = 1, -0.2, 0.5
+
 data = cmne.Data(settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 #%% train
-#fname_model = cmne.train(settings, data, num_epochs=1, steps_per_ep=1)
-fname_model = settings.results_models_path() + '/model_meg-eeg_nu_1280_lb_80_2022-03-24_122855.h5'
+fname_model = cmne.train(settings, data, num_epochs=5, steps_per_ep=10)
+#fname_model = settings.results_models_path() + '/model_meg-eeg_nu_1280_lb_80_2022-03-24_131629.h5'
 
 ###################################################################################################
 #%% Select random subset of epochs
@@ -86,7 +88,7 @@ for idx in idx_list:
     stc_data = stc_dSPM._data
     stc_mean = np.mean(stc_data, axis=1)
     stc_std = np.std(stc_data, axis=1)
-    stc_normalized = bd.standardize(stc_data, mean=stc_mean, std=stc_std)
+    stc_normalized = cmne.standardize(stc_data, mean=stc_mean, std=stc_std)
     stc_normalized_T = stc_normalized.transpose()
         
     ###################################################################################################

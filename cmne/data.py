@@ -171,7 +171,7 @@ class Data(object):
         include = []
         
         # set EEG average reference
-        raw.set_eeg_reference(copy=False, projection=True)
+        raw.set_eeg_reference(projection=True)
         
         # Add a bad channel
         #    raw.info['bads'] += ['EEG 053']  # bads + 1 more
