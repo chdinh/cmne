@@ -1,88 +1,52 @@
-#**
-# @file     Option_4_bio_mne_comparison.py
-# @author   Christoph Dinh <chdinh@nmr.mgh.harvard.edu>;
-#           Matti Hamalainen <msh@nmr.mgh.harvard.edu>
-# @version  1.0
-# @date     May, 2017
-#
-# @section  LICENSE
-#
-# Copyright (C) 2017, Christoph Dinh. All rights reserved.
-#
-# @brief    Model inverse operator with Deep Learning Model
-#           to estimate a MNE-dSPM inverse solution on single epochs
-#
-#**
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# ---------------------------------------------------------------------------
+# @authors   Christoph Dinh <christoph.dinh@brain-link.de>
+#            John G Samuelson <johnsam@mit.edu>
+# @version   1.0
+# @date      May, 2017
+# @copyright Copyright (c) 2017-2022, authors of CMNE. All rights reserved.
+# @license   MIT
+# @brief     CMNE example
+# ---------------------------------------------------------------------------
 
 #==================================================================================
 #%%
-import sys
-sys.path.append("../..") #Add relative path to include modules
-
-import numpy as np
+import datetime
 import random
+import pandas as pd
+import numpy as np
+
 import matplotlib
 matplotlib.use('Agg')# remove for plt.show()
 import matplotlib.pyplot as plt
 
-import pandas as pd
-
-import datetime
-
 from mne.minimum_norm import apply_inverse
-
 from keras.models import load_model
 
-import helpers.cmnedata as bd
-from helpers.cmnesettings import CMNESettings
-from helpers.cmnedata import CMNEData
+import cmne
+import config as cfg
 
 
 ###################################################################################################
 # The Script
 ###################################################################################################
 
-event_id, tmin, tmax = 1, -0.5, 1.0
-# 0 - Sample Data
-#settings = BioSettings(repo_path='D:/GitHub/bio/', data_path='D:/GitHub/mne-cpp/bin/MNE-sample-data/',
-#                       fname_raw='sample_audvis_filt-0-40_raw.fif',
-#                       fname_inv='sample_audvis-meg-eeg-oct-6-meg-eeg-inv.fif',
-#                       fname_eve='sample_audvis_filt-0-40_raw-eve.fif',
-#                       fname_test_idcs='sample_audvis-test-idcs.txt')
-# 1 - Azure Windows
-#settings = BioSettings(repo_path='C:/Git/bio/', data_path='Z:/MEG/jgs/170505/processed/')
-# 2 - Azure Linux
-#settings = BioSettings(repo_path='/home/chdinh/Git/bio/', data_path='/cloud/datasets/MNE-sample-data/')
-# 3 - Azure Windows Simulation
-#settings = BioSettings(repo_path='C:/Git/bio/', data_path='Z:/Simulation/',
-#                       fname_raw='SpikeSim2000_fs900_raw.fif',
-#                       fname_inv='SpikeSim2000_fs900_raw-ico-4-meg-eeg-inv.fif',
-#                       fname_eve='SpikeSim2000_fs900_raw-eve.fif',
-#                       fname_test_idcs='SpikeSim2000_fs900_raw-test-idcs.txt')
-# 4 - Local
-#fname_model = 'D:/Data/Models/bio/Model_Opt_3b_final_meg-eeg_nu_1280_lb_80_-0.2-0.8_2017-10-06_020221.h5' #'Z:/Shared Storage/Models/Model_Opt_3b_nu_1280_lb_80_2017-08-19_050712.h5'
-##fname_model = 'D:/Data/Models/bio/Model_Opt_3b_nu_1280_lb_80_2017-08-19_050712.h5'
-#settings = BioSettings(repo_path='D:/Users/Christoph/Git/bio/', data_path='D:/Data/MEG/jgs/170505/processed/')
-#data = BioData(bio_settings=settings)
-#data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
+#%% Settings
+settings = cmne.Settings(results_path=cfg.result_path, data_path=cfg.data_path,
+                    fname_raw=cfg.fname_raw,
+                    fname_inv=cfg.fname_inv,
+                    fname_eve=cfg.fname_eve,
+                    fname_test_idcs=cfg.fname_test_idcs
+                    )
 
-# 5 - Local Simulation
-#fname_model = 'D:/Data/Models/bio/Model_Opt_5_sim_meg-eeg_nu_1280_lb_80_2017-10-08_042856.h5'
-#settings = BioSettings(repo_path='D:/Users/Christoph/Git/bio/', data_path='D:/Data/Simulation/',
-#                       fname_raw='SpikeSim2000_fs900_raw.fif',
-#                       fname_inv='SpikeSim2000_fs900_raw-ico-4-meg-eeg-inv.fif',
-#                       fname_eve='SpikeSim2000_fs900_raw-eve.fif',
-#                       fname_test_idcs='SpikeSim2000_fs900_raw-test-idcs.txt')
-
-fname_model = 'D:/Users/Christoph/Git/cmne/III_results/I_cmne/I_models/eval_hyper_model_meg-eeg_fs_7_nu_640_lb_80_2019-07-24_101714.h5'
-settings = BioSettings(repo_path='D:/Users/Christoph/Git/cmne', data_path='D:/Data/MEG/jgs/170505/processed',
-                       fname_raw='assr_270LP_fs900_raw.fif',
-                       fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif',
-                       fname_eve='assr_270LP_fs900_raw-eve.fif',
-                       fname_test_idcs='assr_270LP_fs900_raw-test-idcs.txt')
-
-data = BioData(bio_settings=settings)
+#%% Data
+event_id, tmin, tmax = 1, -0.2, 0.5
+data = cmne.Data(settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
+
+#%% train
+fname_model = cmne.train(settings, data, num_epochs=1, steps_per_ep=1)
 
 
 ###################################################################################################
@@ -92,10 +56,7 @@ data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 random.seed(42)
 idx_list = []
-#idx_list.append(random.sample(range(len(data.test_epochs())), 2))
-#idx_list.append(random.sample(range(len(data.test_epochs())), 5))
 idx_list.append(random.sample(range(len(data.test_epochs())), 20))
-#idx_list.append(random.sample(range(len(data.test_epochs())), 50))
 #idx_list.append(random.sample(range(len(data.test_epochs())), len(data.test_epochs())))
 
 
@@ -116,28 +77,7 @@ for idx in idx_list:
     stc_dSPM._data = np.absolute(stc_dSPM.data) # TBD: Remove this line in a future version - think about the reason
     stc_dSPM._data = stc_dSPM.data / stc_dSPM.data.max() # TBD: Remove this line in a future version - since it is z scored down
     
-    
-#    ###################################################################################################
-#    #%% DNN estimation
-#    # load model
-#    dnn_model = load_model('Z:/Shared Storage/Models/Model_Opt_1_DNN_in_365_out_5124_2017-08-17_035213.h5')
-#    
-#    feature_data = evoked.data
-#    feature_mean = np.mean(feature_data, axis=1)
-#    feature_std = np.std(feature_data, axis=1)
-#    features_normalized = bd.standardize(feature_data, mean=feature_mean, std=feature_std)
-#    features = features_normalized.transpose()
-#    
-#    stc_tmp = dnn_model.predict(features) #evoked.data.transpose())
-#    stc_DNN = stc_dSPM.copy()
-#    stc_DNN._data = stc_tmp.transpose();
-#    
-#    # Abs Max Normalization
-#    stc_DNN._data = np.absolute(stc_DNN.data)
-#    stc_DNN._data = stc_DNN.data / stc_DNN.data.max()
-#    
-#    print('stc_DNN._data.shape', stc_DNN._data.shape)
-    
+        
     ###################################################################################################
     #%% LSTM estimation
     # load model
@@ -148,19 +88,7 @@ for idx in idx_list:
     stc_std = np.std(stc_data, axis=1)
     stc_normalized = bd.standardize(stc_data, mean=stc_mean, std=stc_std)
     stc_normalized_T = stc_normalized.transpose()
-    
-    #stc_sequences = create_sequence_parts(stc_normalized_T, 80)
-    #
-    #stc_tmp = lstm_model.predict(stc_sequences)
-    #stc_LSTM = stc_dSPM.copy()
-    #stc_LSTM._data = np.concatenate((np.zeros((5124,81), dtype=float), stc_tmp.transpose()),axis=1)
-    #
-    ## Abs Max Normalization
-    #stc_LSTM._data = np.absolute(stc_LSTM.data)
-    #stc_LSTM._data = stc_LSTM.data / stc_LSTM.data.max()
-    #
-    #print('stc_LSTM._data.shape', stc_LSTM._data.shape)
-    
+        
     ###################################################################################################
     #%% MCMC estimation
     stc_sens = stc_normalized_T.copy()
@@ -207,7 +135,6 @@ for idx in idx_list:
     
     ###################################################################################################
     #%% Control
-    
     stc_control_result = np.zeros((stc_sens.shape[0],5124))
     stc_control_result[0:lb:1,:] = stc_sens[0:lb:1,:] # fill beginning with sensing results
     
@@ -230,64 +157,26 @@ for idx in idx_list:
     stc_CTRL._data = stc_CTRL.data / stc_CTRL.data.max()
     
     print('stc_CTRL._data.shape', stc_CTRL._data.shape)
-    
-    ###################################################################################################
-    #%% MCMC Control
-    
-    #    stc_mcmc_control_result = np.zeros((stc_sens.shape[0],5124))
-    #    stc_mcmc_control_result[0:lb:1,:] = stc_sens[0:lb:1,:] # fill beginning with sensing results
-    #    
-    #    for i in range(steps):
-    #        stc_pre_ave = np.mean(stc_mcmc_control_result[i:i+lb:1,:], axis = 0)
-    #        
-    #        #do the bayesian step
-    #        stc_posterior = stc_sens[i+lb,:] * stc_pre_ave
-    #        
-    #        stc_posterior_abs = np.absolute(stc_posterior)
-    #        stc_posterior = stc_posterior / stc_posterior_abs.max()
-    #        
-    #        stc_mcmc_control_result[i+lb,:] = stc_posterior
-    #        
-    #        print('Step %d/%d'%(i+1, steps))
-    #    
-    #    
-    #    #%%
-    #    stc_MCMC_CTRL = stc_dSPM.copy()
-    #    stc_MCMC_CTRL._data = stc_mcmc_control_result.transpose();
-    #    
-    #    # Abs Max Normalization
-    #    stc_MCMC_CTRL._data = np.absolute(stc_MCMC_CTRL.data)
-    #    stc_MCMC_CTRL._data = stc_MCMC_CTRL.data / stc_MCMC_CTRL.data.max()
-    #    
-    #    print('stc_MCMC_CTRL._data.shape', stc_MCMC_CTRL._data.shape)
-    
+
+
     ###################################################################################################
     #%% Save Results
     ###################################################################################################
     
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
-    fname_stc_dSPM = settings.repo_path() + 'Results/STCs/Opt_4_STC_dSPM_nave_'  + str(nave) + '_' + date_stamp
-    fname_stc_dSPM_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_dSPM_nave_'  + str(nave) + '_' + date_stamp + '.png'
+    fname_stc_dSPM = settings.results_stc_path() + '/dSPM_nave_'  + str(nave) + '_' + date_stamp
+    fname_stc_dSPM_resultfig = settings.results_stc_path() + '/dSPM_nave_'  + str(nave) + '_' + date_stamp + '.png'
     
-#    fname_stc_DNN = settings.repo_path() + 'Results/STCs/Opt_4_STC_DNN_nave_'  + str(nave) + '_' + date_stamp
-#    fname_stc_DNN_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_DNN_nave_'  + str(nave) + '_' + date_stamp + '.png'
+    fname_stc_LSTM_predict = settings.results_stc_path() + '/LSTM_predict_nave_'  + str(nave) + '_' + date_stamp
+    fname_stc_LSTM_predict_resultfig = settings.results_stc_path() + '/LSTM_predict_nave_'  + str(nave) + '_' + date_stamp + '.png'
     
-    #fname_stc_LSTM = repo_path + 'Results/STCs/Opt_4_STC_LSTM_nave_'  + str(nave) + '_' + date_stamp
-    #fname_stc_LSTM_resultfig = repo_path + 'Results/STCs/Opt_4_STC_LSTM_nave_'  + str(nave) + '_' + date_stamp + '.png'
+    fname_stc_MCMC = settings.results_stc_path() + '/CMNE_nave_'  + str(nave) + '_' + date_stamp
+    fname_stc_MCMC_resultfig = settings.results_stc_path() + '/CMNE_nave_'  + str(nave) + '_' + date_stamp + '.png'
     
-    fname_stc_LSTM_predict = settings.repo_path() + 'Results/STCs/Opt_4_STC_LSTM_predict_nave_'  + str(nave) + '_' + date_stamp
-    fname_stc_LSTM_predict_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_LSTM_predict_nave_'  + str(nave) + '_' + date_stamp + '.png'
+    fname_stc_CTRL = settings.results_stc_path() + '/CTRL_nave_'  + str(nave) + '_' + date_stamp
+    fname_stc_CTRL_resultfig = settings.results_stc_path() + '/CTRL_nave_'  + str(nave) + '_' + date_stamp + '.png'
     
-    fname_stc_MCMC = settings.repo_path() + 'Results/STCs/Opt_4_STC_MCMC_nave_'  + str(nave) + '_' + date_stamp
-    fname_stc_MCMC_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_MCMC_nave_'  + str(nave) + '_' + date_stamp + '.png'
-    
-    fname_stc_CTRL = settings.repo_path() + 'Results/STCs/Opt_4_STC_CTRL_nave_'  + str(nave) + '_' + date_stamp
-    fname_stc_CTRL_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_CTRL_nave_'  + str(nave) + '_' + date_stamp + '.png'
-    
-#    fname_stc_MCMC_CTRL = settings.repo_path() + 'Results/STCs/Opt_4_STC_MCMC_CTRL_nave_'  + str(nave) + '_' + date_stamp
-#    fname_stc_MCMC_CTRL_resultfig = settings.repo_path() + 'Results/STCs/Opt_4_STC_MCMC_CTRL_nave_'  + str(nave) + '_' + date_stamp + '.png'
-    
-    fname_idx_list = settings.repo_path() + 'Results/STCs/Opt_4_idx_list_nave_'  + str(nave) + '_' + date_stamp + '.csv'
+    fname_idx_list = settings.results_stc_path() + '/idx_list_nave_'  + str(nave) + '_' + date_stamp + '.csv'
     
     
     #%% Save idxs
@@ -299,12 +188,9 @@ for idx in idx_list:
     print(">>>> Safe STCs <<<<")
     
     stc_dSPM.save(fname_stc_dSPM)
-#    stc_DNN.save(fname_stc_DNN)
-    #stc_LSTM.save(fname_stc_LSTM)
     stc_LSTM_predict.save(fname_stc_LSTM_predict)
     stc_MCMC.save(fname_stc_MCMC)
     stc_CTRL.save(fname_stc_CTRL)
-    #stc_MCMC_CTRL.save(fname_stc_MCMC_CTRL)
     
     
     # Save figures
@@ -324,34 +210,7 @@ for idx in idx_list:
     plt.savefig(fname_stc_dSPM_resultfig, dpi=300)
     #plt.show()
     
-#    # plot DNN STC results
-#    plt.figure(2)
-#    plt.plot(1e3 * stc_DNN.times, stc_DNN.data[::100, :].T)
-#    plt.xlabel('time (ms)')
-#    plt.ylabel('DNN value')
-#    plt.title('DNN: STC time courses')
-#    # #axes = plt.gca()
-#    # #axes.set_xlim([xmin,xmax])
-#    # #axes.set_ylim([0,1.2])
-#    fig = plt.gcf()
-#    fig.set_size_inches(8, 6)
-#    plt.savefig(fname_stc_DNN_resultfig, dpi=300)
-#    #plt.show()
-    
-    ## plot LSTM STC results
-    #plt.figure(3)
-    #plt.plot(1e3 * stc_LSTM.times, stc_LSTM.data[::100, :].T)
-    #plt.xlabel('time (ms)')
-    #plt.ylabel('LSTM value')
-    #plt.title('LSTM: STC time courses')
-    ## #axes = plt.gca()
-    ## #axes.set_xlim([xmin,xmax])
-    ## #axes.set_ylim([0,1.2])
-    #fig = plt.gcf()
-    #fig.set_size_inches(8, 6)
-    #plt.savefig(fname_stc_LSTM_resultfig, dpi=300)
-    ##plt.show()
-    
+
     # plot LSTM Prediction STC results
     plt.figure(3)
     plt.plot(1e3 * stc_LSTM_predict.times, stc_LSTM_predict.data[::100, :].T)
@@ -395,17 +254,3 @@ for idx in idx_list:
     plt.savefig(fname_stc_CTRL_resultfig, dpi=300)
     #plt.show()
     
-    
-    # plot MCMC CTRL STC results
-    #    plt.figure(6)
-    #    plt.plot(1e3 * stc_MCMC_CTRL.times, stc_MCMC_CTRL.data[::100, :].T)
-    #    plt.xlabel('time (ms)')
-    #    plt.ylabel('MCMC CTRL value')
-    #    plt.title('MCMC CTRL: STC time courses')
-    #    # #axes = plt.gca()
-    #    # #axes.set_xlim([xmin,xmax])
-    #    # #axes.set_ylim([0,1.2])
-    #    fig = plt.gcf()
-    #    fig.set_size_inches(8, 6)
-    #    plt.savefig(fname_stc_MCMC_CTRL_resultfig, dpi=300)
-    #    #plt.show()

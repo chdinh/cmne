@@ -11,6 +11,7 @@
 # ---------------------------------------------------------------------------
 
 #%%
+import os
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -35,11 +36,11 @@ def train(
     minibatch_size: int=30,
     steps_per_ep: int=25,
     num_epochs: int=100,
-    lstm_look_back:int=80,
-    num_unit = 1280,
+    lstm_look_back: int=80,
+    num_unit: int=1280,
     idx: int=None,
     verbose: bool=False
-) -> None:
+) -> str:
     """
     Train the LSTM model.
 
@@ -51,10 +52,10 @@ def train(
         num_epochs: Number of epochs
         lstm_look_back: Number of time steps to look back
         num_unit: Number of units in the LSTM layer
-        idx: Index of the subject to train
+        idx: selection of the training epochs, if None all epochs are used
     
     Returns:
-        None
+        model_name: Name of the trained model
     """    
     
     ###################################################################################################
@@ -92,10 +93,10 @@ def train(
     ###################################################################################################
     
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
-    
-    fname_model = settings.result_path() + 'Results/Models/Model_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
-    fname_training_loss = settings.result_path() + 'Results/Training/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
-    fname_resultfig = settings.result_path() + 'Results/img/Loss_Opt_5_sim_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
+
+    fname_model = settings.results_models_path() + '/model_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
+    fname_training_loss = settings.results_training_path() + '/loss_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
+    fname_result_fig = settings.results_img_path() + '/loss_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
     
     history_losses = fitting_result.history['loss']
     
@@ -121,8 +122,10 @@ def train(
     #axes.set_ylim([0,1.2])
     fig = plt.gcf()
     fig.set_size_inches(8, 6)
-    plt.savefig(fname_resultfig, dpi=300)
+    plt.savefig(fname_result_fig, dpi=300)
     
     # plot data
     if verbose:
         plt.show()
+
+    return fname_model

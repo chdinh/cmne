@@ -11,7 +11,6 @@
 # ---------------------------------------------------------------------------
 
 #%% Imports
-import sys
 import cmne
 import config as cfg
 
@@ -29,4 +28,4 @@ data = cmne.Data(settings=settings)
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 #%% train
-cmne.train(settings, data)
+cmne.train(settings, data, num_epochs=1, steps_per_ep=1)

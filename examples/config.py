@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------------
 
 data_path='/workspace/data/'
-result_path='/workspace/results/'
+results_path='/workspace/results/'
 
 fname_raw='assr_270LP_fs900_raw.fif'
 fname_inv='assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif'
