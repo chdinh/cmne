@@ -37,7 +37,7 @@ def train(
     steps_per_ep: int=25,
     num_epochs: int=100,
     lstm_look_back: int=80,
-    num_unit: int=1280,
+    num_units: int=1280,
     idx: int=None,
     verbose: bool=False
 ) -> str:
@@ -51,7 +51,7 @@ def train(
         steps_per_ep: Number of steps per epoch
         num_epochs: Number of epochs
         lstm_look_back: Number of time steps to look back
-        num_unit: Number of units in the LSTM layer
+        num_units: Number of units in the LSTM layer
         idx: selection of the training epochs, if None all epochs are used
     
     Returns:
@@ -75,7 +75,7 @@ def train(
     # create LSTM model
     model = None
     model = Sequential()
-    model.add(LSTM(num_unit, activation='tanh', return_sequences=False, input_shape=(lstm_look_back,num_features_in)))
+    model.add(LSTM(num_units, activation='tanh', return_sequences=False, input_shape=(lstm_look_back,num_features_in)))
     model.add(Dense(num_labels_out, activation='linear'))
     
     # compile the model
@@ -94,9 +94,9 @@ def train(
     
     date_stamp = datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')
 
-    fname_model = settings.results_models_path() + '/model_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
-    fname_training_loss = settings.results_training_path() + '/loss_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
-    fname_result_fig = settings.results_img_path() + '/loss_' + settings.modality() + '_nu_' + str(num_unit) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
+    fname_model = settings.results_models_path() + '/model_' + settings.modality() + '_nu_' + str(num_units) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.h5'
+    fname_training_loss = settings.results_training_path() + '/loss_' + settings.modality() + '_nu_' + str(num_units) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.txt'
+    fname_result_fig = settings.results_img_path() + '/loss_' + settings.modality() + '_nu_' + str(num_units) +'_lb_' + str(lstm_look_back) + '_' + date_stamp + '.png'
     
     history_losses = fitting_result.history['loss']
     

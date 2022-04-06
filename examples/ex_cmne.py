@@ -43,8 +43,8 @@ settings = cmne.Settings(results_path=cfg.results_path, data_path=cfg.data_path,
 #%% Data
 event_id, tmin, tmax = 1, -0.5, 1.0
 #event_id, tmin, tmax = 1, -0.2, 0.5
-
 data = cmne.Data(settings=settings)
+data.get_cmne_sample_data() # Download sample data
 data.load_data(event_id=event_id, tmin=tmin, tmax=tmax)
 
 #%% train

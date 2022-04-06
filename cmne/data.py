@@ -19,27 +19,26 @@ from mne.minimum_norm import apply_inverse_epochs, read_inverse_operator
 
 from .settings import Settings
 
-
 ###################################################################################################
 # Standardize
 ###################################################################################################
 
 def standardize(mat, mean=None, std=None):
-	"""
-	0 center and scale data
-	Standardize an np.array to the array mean and standard deviation or specified parameters
-	See https://en.wikipedia.org/wiki/Feature_scaling
-	"""
-	if mean is None:
-		mean = np.mean(mat, axis=1)
-	
-	if std is None:
-		std = np.std(mat, axis=1)
+    """
+    0 center and scale data
+    Standardize an np.array to the array mean and standard deviation or specified parameters
+    See https://en.wikipedia.org/wiki/Feature_scaling
+    """
+    if mean is None:
+        mean = np.mean(mat, axis=1)
 
-	data_normalized = (mat.transpose() - mean).transpose()
-	data = (data_normalized.transpose() / std).transpose()
+    if std is None:
+        std = np.std(mat, axis=1)
 
-	return data
+    data_normalized = (mat.transpose() - mean).transpose()
+    data = (data_normalized.transpose() / std).transpose()
+
+    return data
 
 
 ###################################################################################################
@@ -159,10 +158,54 @@ class Data(object):
         self._settings = settings
 
 	###############################################################################################
-	# Load Data
+	# Load Sample Data
 	###############################################################################################
+    def get_cmne_sample_data(self):
+        """
+        Checks if the required cmne sample data are available and download if not.
+        
+        Parameters
+        ----------
+        cmne_data_path : str
+            Path to the ceremegbellum folder.
+        """
+        if os.path.exists(self._settings.data_path()) and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-eve.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-test-idcs.txt') :
+            print('CMNE sample data seems to be downloaded.')
+        else:
+            from pooch import retrieve
+            import zipfile
+            print('Seems like some data are missing. No problem, fetching...')
+            os.system('mkdir ' + self._settings.data_path() + 'tmp')
+            retrieve(url='https://osf.io/w6kgp/download',
+                    known_hash=None, fname='ASSR',
+                    path=self._settings.data_path() + 'tmp') # UNTIL THE REPO IS PUBLIC, YOU NEED TO DO THIS STEP MANUALLY
+            with zipfile.ZipFile(self._settings.data_path() + 'tmp/' + 'ASSR.zip', 'r') as zip_ref:
+                zip_ref.extractall(self._settings.data_path() + 'tmp')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-1.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-1.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-2.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-2.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-cov.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-cov.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-eve.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-eve.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-ico-4-fwd.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-fwd.fif')
+            os.system('rm -r ' + self._settings.data_path() + 'tmp') # clean up
+            print('Done.')
+        return
+
+    ###############################################################################################
+    # Load Data
+    ###############################################################################################
     def load_data(self, event_id=1, tmin=-0.2, tmax=0.5, train_percentage = 0.85):
-		# Load data
+        # Load data
         inverse_operator = read_inverse_operator(self._settings.fname_inv())
         raw = mne.io.read_raw_fif(self._settings.fname_raw())
         events = mne.read_events(self._settings.fname_event())
@@ -244,14 +287,14 @@ class Data(object):
             for stc in stcs:
                 stc_normalized = standardize(stc.data, mean=stc_mean, std=stc_std)
                 stc_normalized_T = stc_normalized.transpose()
-				
+
                 feature_list, label_list = reshape_stc_data(stc = stc_normalized_T, look_back = look_back)
 
                 features = np.array(feature_list)
                 labels = np.array(label_list)
                 
                 yield features, labels
-		
+
     ###############################################################################################
     # Getters and setters
     ###############################################################################################
