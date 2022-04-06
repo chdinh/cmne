@@ -181,7 +181,7 @@ class Data(object):
             print('Seems like some data are missing. No problem, fetching...')
             os.system('mkdir ' + self._settings.data_path() + 'tmp')
             retrieve(url='https://osf.io/w6kgp/download',
-                    known_hash=None, fname='ASSR',
+                    known_hash=None, fname='ASSR.zip',
                     path=self._settings.data_path() + 'tmp') # UNTIL THE REPO IS PUBLIC, YOU NEED TO DO THIS STEP MANUALLY
             with zipfile.ZipFile(self._settings.data_path() + 'tmp/' + 'ASSR.zip', 'r') as zip_ref:
                 zip_ref.extractall(self._settings.data_path() + 'tmp')
