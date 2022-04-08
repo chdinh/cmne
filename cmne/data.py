@@ -171,8 +171,10 @@ class Data(object):
         """
         if os.path.exists(self._settings.data_path()) and \
            os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw.fif') and \
-           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-1.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-2.fif') and \
            os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-eve.fif') and \
+           os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif') and \
            os.path.exists(self._settings.data_path() + 'assr_270LP_fs900_raw-test-idcs.txt') :
             print('CMNE sample data seems to be downloaded.')
         else:
@@ -180,23 +182,24 @@ class Data(object):
             import zipfile
             print('Seems like some data are missing. No problem, fetching...')
             os.system('mkdir ' + self._settings.data_path() + 'tmp')
-            retrieve(url='https://osf.io/w6kgp/download',
-                    known_hash=None, fname='ASSR.zip',
-                    path=self._settings.data_path() + 'tmp') # UNTIL THE REPO IS PUBLIC, YOU NEED TO DO THIS STEP MANUALLY
+            if not os.path.exists(self._settings.data_path() + 'tmp/ASSR.zip'):
+                retrieve(url='https://osf.io/zhqnp/download',
+                        known_hash=None, fname='ASSR.zip',
+                        path=self._settings.data_path() + 'tmp') # UNTIL THE REPO IS PUBLIC, YOU NEED TO DO THIS STEP MANUALLY
             with zipfile.ZipFile(self._settings.data_path() + 'tmp/' + 'ASSR.zip', 'r') as zip_ref:
                 zip_ref.extractall(self._settings.data_path() + 'tmp')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw.fif ' + \
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw.fif ' + \
                               self._settings.data_path() + 'assr_270LP_fs900_raw.fif')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-1.fif ' + \
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw-1.fif ' + \
                               self._settings.data_path() + 'assr_270LP_fs900_raw-1.fif')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-2.fif ' + \
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw-2.fif ' + \
                               self._settings.data_path() + 'assr_270LP_fs900_raw-2.fif')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-cov.fif ' + \
-                              self._settings.data_path() + 'assr_270LP_fs900_raw-cov.fif')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-eve.fif ' + \
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw-eve.fif ' + \
                               self._settings.data_path() + 'assr_270LP_fs900_raw-eve.fif')
-            os.system('mv ' + self._settings.data_path() + 'tmp/osf_data/assr_270LP_fs900_raw-ico-4-fwd.fif ' + \
-                              self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-fwd.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif')
+            os.system('mv ' + self._settings.data_path() + 'tmp/ASSR/assr_270LP_fs900_raw-test-idcs.txt ' + \
+                              self._settings.data_path() + 'assr_270LP_fs900_raw-test-idcs.txt')
             os.system('rm -r ' + self._settings.data_path() + 'tmp') # clean up
             print('Done.')
         return
