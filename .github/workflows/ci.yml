@@ -37,11 +37,10 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
           enable-cache: true
       - name: Install (CPU-only PyTorch)
-        run: uv pip install --system -e ".[test]" --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match
-        env:
-          UV_SYSTEM_PYTHON: "1"
+        run: uv pip install -e ".[test]" --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match
       - name: Test
         run: pytest --cov=cmne --cov-report=xml --cov-report=term
       - name: Demo
