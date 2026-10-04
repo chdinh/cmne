@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use CMNE, please cite the paper below."
+title: "CMNE: Contextual Minimum-Norm Estimates"
+repository-code: "https://github.com/chdinh/cmne"
+license: MIT
+authors:
+  - family-names: Dinh
+    given-names: Christoph
+    email: christoph.dinh@mne-cpp.org
+  - family-names: Samuelsson
+    given-names: John G.
+preferred-citation:
+  type: article
+  title: "Contextual MEG and EEG Source Estimates Using Spatiotemporal LSTM Networks"
+  journal: "Frontiers in Neuroscience"
+  volume: 15
+  start: 552666
+  year: 2021
+  doi: "10.3389/fnins.2021.552666"
+  authors:
+    - family-names: Dinh
+      given-names: Christoph
+    - family-names: Samuelsson
+      given-names: John G.
+    - family-names: Hunold
+      given-names: Alexander
+    - family-names: Hämäläinen
+      given-names: Matti S.
+    - family-names: Khan
+      given-names: Sheraz

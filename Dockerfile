@@ -1,19 +1,20 @@
-# Example build:
-#   docker build -t brain-link/cmne:v0.01 .
+# CPU image (small):   docker build -t cmne .
+# GPU image:           docker build -t cmne:gpu --build-arg TORCH_INDEX=https://download.pytorch.org/whl/cu124 .
 #
-# Example usage:
-#   docker run -ti -v <YOUR DATA DIR>:/workspace/data -v <YOUR CMNE RESULTS DIR>:/workspace/results -v <YOUR CMNE GIT DIR>:/workspace/cmne --name CMNE brain-link/cmne:v0.01
-#   docker run -ti -v D:/Data/1_Studies/2017_09_30_MEG_jgs/jgs/170505/processed:/workspace/data -v D:/Data/2_Processed/cmne:/workspace/results -v D:/Git/cmne:/workspace/cmne --name CMNE brain-link/cmne:v0.01
+# Run:  docker run --rm -v $HOME/cmne_data:/data -v $PWD/results:/results cmne \
+#           cmne train --raw /data/assr_270LP_fs900_raw.fif --inv /data/assr_270LP_fs900_raw-ico-4-meg-eeg-inv.fif \
+#                      --events /data/assr_270LP_fs900_raw-eve.fif -o /results/cmne.pt
+FROM python:3.12-slim
 
-# Start with tensorflow enabled gpu version
-FROM tensorflow/tensorflow:latest-gpu
+ARG TORCH_INDEX=https://download.pytorch.org/whl/cpu
+ENV PIP_NO_CACHE_DIR=1 PYTHONUNBUFFERED=1 MPLBACKEND=Agg
 
-RUN apt-get update
+WORKDIR /opt/cmne
+COPY pyproject.toml README.md LICENSE ./
+COPY cmne ./cmne
+RUN pip install --extra-index-url "${TORCH_INDEX}" ".[onnx,viz]" \
+    && useradd --create-home cmne
 
-RUN mkdir /workspace
-RUN mkdir /workspace/data
-RUN mkdir /workspace/results
-RUN mkdir /workspace/cmne
-
-# Configure CMNE
-RUN pip install cmne -U
+USER cmne
+WORKDIR /results
+CMD ["cmne", "--help"]
