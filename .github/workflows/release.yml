@@ -11,7 +11,7 @@ jobs:
     permissions:
       id-token: write  # trusted publishing, no API token needed
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v6
       - run: uv build
       - uses: pypa/gh-action-pypi-publish@release/v1
