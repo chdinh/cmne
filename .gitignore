@@ -17,7 +17,7 @@ htmlcov/
 *.onnx
 cmne_results/
 cmne_assr_results/
-cmne_quickstart.png
+/cmne_quickstart.png
 
 # stray SQLite artifacts from tooling
 :memory:*
