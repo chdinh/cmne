@@ -109,8 +109,9 @@ from mne.minimum_norm import apply_inverse
 kernel = cmne.inverse_kernel(epochs.info, inv, lambda2=1 / 9, method="dSPM")
 
 # Train on single-trial dSPM estimates (paper settings: k = 80, d = 1280)
-model = cmne.fit(epochs[train], kernel, look_back=80, num_units=1280, n_steps=250,
-                 validation=epochs[test])
+model = cmne.fit(
+    epochs[train], kernel, look_back=80, num_units=1280, n_steps=250, validation=epochs[test]
+)
 model.save("cmne.pt")
 
 # Apply to an averaged response
@@ -133,7 +134,7 @@ They are `SourceEstimate` objects if the input was one, NumPy arrays otherwise. 
 
 ```python
 cmne.export_onnx(model, "cmne.onnx")
-predictor = cmne.OnnxPredictor("cmne.onnx")   # PyTorch not required
+predictor = cmne.OnnxPredictor("cmne.onnx")  # PyTorch not required
 result = cmne.apply_cmne(stc, predictor)
 ```
 
