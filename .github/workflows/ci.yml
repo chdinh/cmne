@@ -46,7 +46,7 @@ jobs:
         run: pytest --cov=cmne --cov-report=xml --cov-report=term
       - name: Demo
         run: cmne demo --steps 20
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         with:
           files: coverage.xml
