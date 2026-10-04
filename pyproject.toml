@@ -14,7 +14,11 @@ authors = [
     { name = "Christoph Dinh", email = "christoph.dinh@mne-cpp.org" },
     { name = "John G. Samuelsson" },
 ]
-keywords = ["MEG", "EEG", "source estimation", "inverse problem", "LSTM", "deep learning", "MNE", "dSPM"]
+keywords = [
+    "MEG", "EEG", "magnetoencephalography", "electroencephalography", "source localization",
+    "source estimation", "inverse problem", "neuroimaging", "spatiotemporal", "LSTM",
+    "deep learning", "PyTorch", "ONNX", "MNE-Python", "dSPM",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
