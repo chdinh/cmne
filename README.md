@@ -6,7 +6,7 @@
 
 An LSTM learns how brain activity evolves over time and uses that context to sharpen standard source estimates such as dSPM.
 
-[![CI](https://github.com/chdinh/cmne/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chdinh/cmne/actions/workflows/ci.yml)
+[![CI](https://github.com/chdinh/cmne/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/chdinh/cmne/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/cmne?color=blue)](https://pypi.org/project/cmne/)
 [![Python](https://img.shields.io/pypi/pyversions/cmne)](https://pypi.org/project/cmne/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/chdinh/cmne/blob/main/LICENSE)
